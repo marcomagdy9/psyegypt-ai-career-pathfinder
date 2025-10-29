@@ -1,12 +1,23 @@
-
 import { GoogleGenAI, Modality } from "@google/genai";
 
-const API_KEY = process.env.API_KEY;
-if (!API_KEY) {
-    throw new Error("API_KEY environment variable not set");
-}
+// FIX: Implemented lazy initialization for the AI client.
+// This prevents the app from crashing on startup if the API key is not immediately available.
+// The client is now created only when the first API call is made.
+let ai: GoogleGenAI | null = null;
 
-const ai = new GoogleGenAI({ apiKey: API_KEY });
+const getAiClient = () => {
+    if (!ai) {
+        const apiKey = process.env.API_KEY;
+        if (!apiKey) {
+            // This error will be caught by the calling function's try/catch block,
+            // allowing the UI to display a proper error message instead of a blank screen.
+            throw new Error("API Key not found. Please ensure it is configured correctly.");
+        }
+        ai = new GoogleGenAI({ apiKey });
+    }
+    return ai;
+};
+
 
 const getBasePrompt = (language: 'en' | 'ar') => `
 You are 'The PsyEgypt Career Pathfinder,' an AI assistant from 'PsyEgypt - The Psychology Community in Egypt.' Your persona is that of a knowledgeable and encouraging guide who helps psychology students in Egypt and the MENA region.
@@ -16,6 +27,7 @@ Your response MUST be in ${language === 'ar' ? 'Modern Standard Arabic' : 'Engli
 
 export const getPersonalizedGreeting = async (challenge: string, language: 'en' | 'ar'): Promise<string> => {
     try {
+        const client = getAiClient();
         const exampleEn = `
         Example 1 (challenge):
         User's input: "I'm in my final year and I love research but I'm worried I won't get into a good Master's program."
@@ -60,7 +72,7 @@ export const getPersonalizedGreeting = async (challenge: string, language: 'en' 
         Now, generate a response for the user's input provided above.
         `;
 
-        const response = await ai.models.generateContent({
+        const response = await client.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: prompt,
         });
@@ -76,12 +88,13 @@ export const getPersonalizedGreeting = async (challenge: string, language: 'en' 
 // New function for chat with search grounding
 export const getChatResponse = async (history: { role: string; parts: { text: string }[] }[], question: string, language: 'en' | 'ar') => {
     try {
+        const client = getAiClient();
         const fullHistory = [
             ...history,
             { role: 'user', parts: [{ text: question }] }
         ];
 
-        const response = await ai.models.generateContent({
+        const response = await client.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: fullHistory,
             config: {
@@ -109,9 +122,10 @@ export const getChatResponse = async (history: { role: string; parts: { text: st
 // New function for deep analysis with thinking mode
 export const getAnalysisResponse = async (question: string, language: 'en' | 'ar'): Promise<string> => {
     try {
+        const client = getAiClient();
         const prompt = `${getBasePrompt(language)}\n\nPlease provide a deep and thoughtful analysis of the following user query:\n\n${question}`;
 
-        const response = await ai.models.generateContent({
+        const response = await client.models.generateContent({
             model: 'gemini-2.5-pro',
             contents: prompt,
             config: {
@@ -131,10 +145,11 @@ export const getAnalysisResponse = async (question: string, language: 'en' | 'ar
 // New function for Text-to-Speech
 export const generateSpeech = async (text: string): Promise<string> => {
     try {
+        const client = getAiClient();
         // Simple text cleaning
         const cleanText = text.replace(/[*#`]/g, '');
 
-        const response = await ai.models.generateContent({
+        const response = await client.models.generateContent({
             model: "gemini-2.5-flash-preview-tts",
             contents: [{ parts: [{ text: cleanText }] }],
             config: {
