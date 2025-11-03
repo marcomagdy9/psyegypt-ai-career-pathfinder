@@ -264,7 +264,7 @@ export const ThinkingIcon = () => (
                 animation: thinking-dash 1.5s ease-in-out infinite;
             }
             `}
-        </g>
+        </style>
         <g className="thinking-circle">
             <circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.3" />
             <circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" strokeWidth="1.5" className="thinking-path" />
