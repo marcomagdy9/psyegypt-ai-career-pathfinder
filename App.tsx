@@ -4,10 +4,11 @@ import ReactMarkdown from 'react-markdown';
 import type { Message, Choice, GroundingSource } from './types';
 import { ChatWindow } from './components/ChatWindow';
 import { getChatResponseStream, getAnalysisResponseStream, generateSpeech } from './services/geminiService';
-// FIX: Import `BotIcon` to resolve reference error.
 import { SendIcon, RefreshIcon, SpeakerIcon, AudioOffIcon, LogoIcon, HomeIcon, ExploreIcon, QuizIcon, TrainingIcon, BotIcon, ThinkingIcon } from './components/icons';
-// FIX: Imported ChoiceButton to resolve reference error.
 import ChoiceButton from './components/ChoiceButton';
+import egyptArContent from './content/egypt-ar';
+import egyptEnContent from './content/egypt-en';
+import usaEnContent from './content/usa-en';
 
 const DISTRESS_KEYWORDS = ['depressed', 'suicidal', 'hopeless', 'can\'t go on', 'anxious', 'sad', 'hurting', 'kill myself', 'مكتئب', 'انتحار', 'يأس'];
 
@@ -54,7 +55,6 @@ const App: React.FC = () => {
   const [chatHistory, setChatHistory] = useState<{ role: string; parts: { text: string }[] }[]>([]);
   
   const [currentContent, setCurrentContent] = useState<any>(null);
-  const [isContentLoading, setIsContentLoading] = useState(false);
   
   // Audio state
   const [isSoundEnabled, setIsSoundEnabled] = useState(true);
@@ -78,19 +78,20 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (country && language) {
-      const loadContent = async () => {
-        setIsContentLoading(true);
-        setCurrentContent(null);
-        try {
-          const contentModule = await import(`./content/${country}-${language}.ts`);
-          setCurrentContent(contentModule.default);
-        } catch (error) {
-          console.error(`Failed to load content for ${country}-${language}`, error);
-        } finally {
-          setIsContentLoading(false);
+        const contentMap = {
+            'egypt-ar': egyptArContent,
+            'egypt-en': egyptEnContent,
+            'usa-en': usaEnContent,
+        };
+        const key = `${country}-${language}` as keyof typeof contentMap;
+        const content = contentMap[key];
+
+        if (content) {
+            setCurrentContent(content);
+        } else {
+            console.error(`Failed to load content for ${country}-${language}`);
+            setCurrentContent(null);
         }
-      };
-      loadContent();
     }
   }, [country, language]);
 
@@ -724,7 +725,7 @@ const App: React.FC = () => {
     );
   }
 
-  if (isContentLoading || !currentContent) {
+  if (!currentContent) {
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-brand-primary">
             <ThinkingIcon />
