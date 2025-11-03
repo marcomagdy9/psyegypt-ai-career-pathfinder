@@ -1,6 +1,17 @@
 
 import React from 'react';
 
+export const LogoIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-brand-secondary mb-4" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <path d="M15.5 13a3.5 3.5 0 0 0 -3.5 3.5v1a3.5 3.5 0 0 0 7 0v-1.8" />
+      <path d="M8.5 13a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1 -7 0v-1.8" />
+      <path d="M12 12a3.5 3.5 0 0 0 3.5 -3.5v-1a3.5 3.5 0 0 0 -7 0v1.8" />
+      <path d="M12 3a8 8 0 0 0 -8 8c0 1.47 .4 2.85 1.1 4.02" />
+      <path d="M12 3a8 8 0 0 1 8 8c0 1.47 -.4 2.85 -1.1 4.02" />
+    </svg>
+);
+
 export const BotIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -169,5 +180,94 @@ export const QuoteIcon = () => (
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M10 11h-4a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h3a1 1 0 0 1 1 1v6c0 2.667 -1.333 4.333 -4 5" />
         <path d="M19 11h-4a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h3a1 1 0 0 1 1 1v6c0 2.667 -1.333 4.333 -4 5" />
+    </svg>
+);
+
+export const HomeIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+        <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+    </svg>
+);
+
+export const ExploreIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+        <path d="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0" />
+        <path d="M12 2l0 2" />
+        <path d="M12 20l0 2" />
+        <path d="M20 12l2 0" />
+        <path d="M2 12l2 0" />
+    </svg>
+);
+
+export const SkillsIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M3 12h1m8 -9v1m8 8h1m-15.4 -6.4l.7 .7m12.1 -.7l-.7 .7" />
+        <path d="M9 16a5 5 0 1 1 6 0a3.5 3.5 0 0 0 -1 3a2 2 0 0 1 -4 0a3.5 3.5 0 0 0 -1 -3" />
+        <path d="M9.7 17l4.6 0" />
+    </svg>
+);
+
+export const QuizIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M4 7h1v10h-1z" />
+        <path d="M8 7h1v10h-1z" />
+        <path d="M12 7h1v10h-1z" />
+        <path d="M16 7h1v10h-1z" />
+        <path d="M5 7l3 -3l3 3l3 -3l3 3l3 -3l1 1" />
+        <path d="M5 17l3 3l3 -3l3 3l3 -3l3 3l-1 -1" />
+    </svg>
+);
+
+export const TrainingIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M6 15l6 -6l6 6l-6 6z" />
+        <path d="M6 9l6 -6l6 6l-6 6z" />
+    </svg>
+);
+
+export const ThinkingIcon = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-8 w-8 text-brand-secondary"
+        viewBox="0 0 24 24"
+        strokeWidth="1.5"
+        stroke="currentColor"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
+        <style>
+            {`
+            @keyframes thinking-rotate {
+                100% { transform: rotate(360deg); }
+            }
+            @keyframes thinking-dash {
+                0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
+                50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
+                100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+            }
+            .thinking-circle {
+                animation: thinking-rotate 2s linear infinite;
+                transform-origin: center;
+            }
+            .thinking-path {
+                stroke-dasharray: 1, 150;
+                stroke-dashoffset: 0;
+                animation: thinking-dash 1.5s ease-in-out infinite;
+            }
+            `}
+        </g>
+        <g className="thinking-circle">
+            <circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.3" />
+            <circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" strokeWidth="1.5" className="thinking-path" />
+        </g>
     </svg>
 );

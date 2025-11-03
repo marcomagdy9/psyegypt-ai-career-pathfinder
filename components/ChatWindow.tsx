@@ -1,7 +1,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import type { Message } from '../types';
-import { BotIcon, UserIcon, SpeakerIcon, PlayIcon, PauseIcon, ExternalLinkIcon, CopyIcon, CheckIcon } from './icons';
+import { BotIcon, UserIcon, SpeakerIcon, PlayIcon, PauseIcon, ExternalLinkIcon, CopyIcon, CheckIcon, ThinkingIcon } from './icons';
 import ChoiceButton from './ChoiceButton';
 import ReactMarkdown from 'react-markdown';
 
@@ -14,6 +14,7 @@ interface ChatWindowProps {
   audioPlayback: { messageId: number | null; status: 'playing' | 'paused' };
   isAudioLoading: number | null;
   isSoundEnabled: boolean;
+  quizProgressText: string | null;
 }
 
 const AudioSpinner = () => (
@@ -28,14 +29,15 @@ const ChatBubble: React.FC<{
     audioPlayback: { messageId: number | null; status: 'playing' | 'paused' };
     isAudioLoading: number | null;
     isSoundEnabled: boolean;
-}> = ({ message, onChoiceClick, onToggleAudio, language, audioPlayback, isAudioLoading, isSoundEnabled }) => {
+    renderChoices: boolean;
+}> = ({ message, onChoiceClick, onToggleAudio, language, audioPlayback, isAudioLoading, isSoundEnabled, renderChoices }) => {
     const isAi = message.sender === 'ai';
     const [isCopied, setIsCopied] = React.useState(false);
 
-    const containerClasses = `flex w-full my-2 ${isAi ? 'justify-start' : 'justify-end'}`;
+    const containerClasses = `flex w-full my-2 ${isAi ? 'justify-start' : 'justify-end'} animate-slide-in-up`;
     const contentClasses = `flex items-start gap-2.5 ${isAi ? 'flex-row' : 'flex-row-reverse'}`;
     const bubbleRadius = isAi ? 'rounded-tl-none' : 'rounded-tr-none';
-    const bubbleColor = isAi ? 'bg-ai-bubble' : 'bg-user-bubble';
+    const bubbleColor = isAi ? 'bg-ai-bubble backdrop-blur-sm' : 'bg-user-bubble';
     const textContent = typeof message.text === 'string' ? message.text : ''; // Get string content for TTS
 
     const handleCopy = React.useCallback(() => {
@@ -82,9 +84,8 @@ const ChatBubble: React.FC<{
             <div className={contentClasses}>
                 {isAi ? <BotIcon /> : <UserIcon />}
                 <div className={`flex flex-col max-w-sm md:max-w-md lg:max-w-lg ${isAi ? 'items-start' : 'items-end'}`}>
-                    <div className={`relative flex flex-col ${isAi ? 'p-3 pb-8 pr-20' : 'p-3'} text-sm text-white ${bubbleColor} rounded-xl ${bubbleRadius}`}>
+                    <div className={`flex flex-col p-3 text-sm text-white ${bubbleColor} rounded-xl ${bubbleRadius}`}>
                         {typeof message.text === 'string' ? (
-                            // FIX: The `className` prop is not valid for `ReactMarkdown`. Moved styles to a wrapper div.
                             <div className="prose prose-invert prose-p:my-1 prose-a:text-brand-accent prose-a:hover:underline">
                                 <ReactMarkdown components={{ a: LinkRenderer }}>
                                     {message.text}
@@ -93,19 +94,21 @@ const ChatBubble: React.FC<{
                         ) : (
                             message.text
                         )}
-                        {isAi && (
-                            <div className="absolute -bottom-2 -right-2 flex items-center gap-1">
-                                {isSoundEnabled && textContent && (
-                                    <button onClick={() => onToggleAudio(textContent, message.id)} className="p-1.5 bg-ai-bubble rounded-full hover:bg-brand-secondary/50 transition-colors" aria-label="Play audio">
-                                        {getAudioIcon()}
-                                    </button>
-                                )}
-                                <button onClick={handleCopy} className="p-1.5 bg-ai-bubble rounded-full hover:bg-brand-secondary/50 transition-colors" aria-label="Copy text">
-                                    {isCopied ? <CheckIcon /> : <CopyIcon />}
-                                </button>
-                            </div>
-                        )}
                     </div>
+                    
+                    {isAi && (
+                        <div className="mt-2 flex items-center gap-1 bg-ai-bubble/80 backdrop-blur-sm px-2 py-1 rounded-full border border-white/10">
+                            {isSoundEnabled && textContent && (
+                                <button onClick={() => onToggleAudio(textContent, message.id)} className="p-1.5 rounded-full hover:bg-brand-secondary/20 transition-colors" aria-label="Play audio">
+                                    {getAudioIcon()}
+                                </button>
+                            )}
+                            <button onClick={handleCopy} className="p-1.5 rounded-full hover:bg-brand-secondary/20 transition-colors" aria-label="Copy text">
+                                {isCopied ? <CheckIcon /> : <CopyIcon />}
+                            </button>
+                        </div>
+                    )}
+
                     {message.sources && message.sources.length > 0 && (
                         <div className="mt-2 text-xs text-gray-400">
                             <h4 className="font-bold mb-1">{language === 'ar' ? 'المصادر' : 'Sources'}:</h4>
@@ -122,7 +125,7 @@ const ChatBubble: React.FC<{
                         </div>
                     )}
                     <div className="flex flex-wrap gap-2 mt-2">
-                        {message.choices?.map((choice, index) => (
+                        {renderChoices && message.choices?.map((choice, index) => (
                             <ChoiceButton key={index} choice={choice} onClick={onChoiceClick} />
                         ))}
                     </div>
@@ -142,6 +145,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   audioPlayback,
   isAudioLoading,
   isSoundEnabled,
+  quizProgressText,
 }) => {
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
@@ -154,8 +158,13 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   }, [messages, isLoading]);
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4">
-      {messages.map((message) => (
+    <div className="flex-1 overflow-y-auto p-4 space-y-4 relative">
+      {quizProgressText && (
+        <div className="sticky top-0 z-10 bg-brand-primary/80 backdrop-blur-sm p-2 mb-2 rounded-lg text-center text-sm font-semibold text-gray-300 shadow-md animate-fade-in">
+          {quizProgressText}
+        </div>
+      )}
+      {messages.map((message, index) => (
         <ChatBubble
           key={message.id}
           message={message}
@@ -165,16 +174,15 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
           audioPlayback={audioPlayback}
           isAudioLoading={isAudioLoading}
           isSoundEnabled={isSoundEnabled}
+          renderChoices={index === messages.length - 1 && !isLoading}
         />
       ))}
       {isLoading && (
-        <div className="flex justify-start my-2">
+        <div className="flex justify-start my-2 animate-slide-in-up">
           <div className="flex items-start gap-2.5">
             <BotIcon />
             <div className="flex items-center space-x-2 bg-ai-bubble p-3 rounded-xl rounded-tl-none">
-              <span className="h-2 w-2 bg-brand-secondary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-              <span className="h-2 w-2 bg-brand-secondary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-              <span className="h-2 w-2 bg-brand-secondary rounded-full animate-bounce"></span>
+              <ThinkingIcon />
             </div>
           </div>
         </div>
