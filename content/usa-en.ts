@@ -1,7 +1,6 @@
-
 const content = {
     headerTitle: "Career Pathfinder",
-    headerSubtitle: "American Psychological Association",
+    headerSubtitle: "An EPF Initiative by the APA",
     headerCollaboration: "In collaboration with the APA",
     inputPlaceholder: "Type your message or use the menu...",
     distressMessage: "It sounds like you are going through a difficult time. Please know that I am an AI assistant for career guidance only and cannot provide mental health support. **For immediate help, please call or text the 988 Suicide & Crisis Lifeline.** Please reach out to a qualified professional.",
@@ -18,9 +17,8 @@ How can I help you today?`,
       
     mainMenu: {
       explore: "🗺️ Explore Career Paths",
-      discoveryQuiz: "🧩 Career Discovery Quiz",
+      discoveryQuiz: "🧩 Exploration Starter",
       training: "🚀 Career & Skill Training",
-      expertQuestion: "💬 Ask an Expert Question",
       team: "🤝 Meet the Team",
       whatsNew: "✨ Join APA for Free",
       aboutUs: "👥 About Us"
@@ -33,7 +31,7 @@ Our mission is to empower you with clarity and confidence, bridging the gap betw
       
     quickNav: {
       mainMenu: "Main Menu",
-      discoveryQuiz: "Discovery Quiz",
+      discoveryQuiz: "Exploration Starter",
       training: "Training",
     },
 
@@ -62,12 +60,13 @@ Our mission is to empower you with clarity and confidence, bridging the gap betw
     },
 
     careerDiscoveryQuiz: {
-        startMessage: "This quiz will help you discover career paths that match your interests. Let's start by understanding where you are in your educational journey. What is your current or highest level of education?",
+        startMessage: "This simple activity will help you discover career paths that match your interests. **This is not a formal assessment**, but a tool to suggest a starting point for your exploration. Let's begin by understanding where you are in your educational journey. What is your current or highest level of education?",
         educationLevels: {
-            thanwya: "High School (Thanaweya Amma) / Undergraduate Student",
-            ba: "Bachelor's Degree (BA/BSc) in Psychology",
-            ma: "Master's Degree (MA/MSc) in Psychology",
-            phd: "Doctoral Degree (PhD/PsyD) in Psychology"
+            high_school: "High School / Pre-College",
+            associates: "Associate's Degree (e.g., from a Community College)",
+            bachelors: "Bachelor's Degree (e.g., from a University)",
+            masters: "Master's Degree",
+            doctoral: "Doctoral Degree (PhD or PsyD)"
         },
         readyMessage: "Great! Now, for each of the following questions, choose the option that most resonates with you.",
         questions: [
@@ -109,42 +108,46 @@ Our mission is to empower you with clarity and confidence, bridging the gap betw
             }
         ],
         results: {
-            header: "Based on your answers, here are the top career clusters that seem to align with your interests. This is a starting point for exploration, designed to spark ideas regardless of your current career stage.",
-            trainingPlan: "For an undergraduate, the best first step is to gain practical experience. To get started, we recommend following our **{clusterTitle} Training Plan** to build foundational skills.",
+            header: "Based on your answers, here are the top career clusters that seem to align with your interests. **This is a starting point for exploration, not a definitive career assignment.** Use these results to begin discovering the detailed paths available to you.",
+            trainingPlan: "For a student at your level, the best first step is to gain practical experience. To get started, we recommend following our **{clusterTitle} Training Plan** to build foundational skills.",
             clinical: {
                 title: "Clinical & Counseling Path",
                 description: "You're drawn to helping people directly. This path, often represented by [APA's Division 12 (Society of Clinical Psychology)](https://www.div12.org/), focuses on diagnosing and treating mental, emotional, and behavioral disorders.",
                 roles: {
-                    ba: "Case Manager, Social Services Assistant, Psychiatric Technician.",
-                    ma: "Licensed Counselor, School Psychologist, Marriage and Family Therapist.",
-                    phd: "Licensed Clinical Psychologist, Neuropsychologist, Private Practitioner."
+                    associates: "Psychiatric Technician, Social and Human Service Assistant, Case Management Aide.",
+                    bachelors: "Case Manager, Mental Health Technician, Community Outreach Worker, Behavioral Health Specialist.",
+                    masters: "Licensed Professional Counselor (LPC), Marriage and Family Therapist (MFT), School Psychologist.",
+                    doctoral: "Licensed Clinical Psychologist (PhD/PsyD), Neuropsychologist, Private Practitioner."
                 }
             },
             organizational: {
                 title: "Organizational & HR Path",
                 description: "You enjoy improving systems and working with teams. This field, represented by [APA's Division 14 (Society for Industrial and Organizational Psychology)](https://www.siop.org/), applies psychology to the workplace to improve productivity and employee well-being.",
                 roles: {
-                    ba: "HR Coordinator, Recruiter, Training and Development Assistant.",
-                    ma: "HR Manager, Organizational Development Consultant, Talent Acquisition Specialist.",
-                    phd: "Chief People Officer, Industrial-Organizational Psychologist, Executive Coach."
+                    associates: "Human Resources Assistant, Payroll Clerk.",
+                    bachelors: "HR Coordinator, Recruiter, Training and Development Assistant.",
+                    masters: "HR Manager, Organizational Development Consultant, Talent Acquisition Specialist.",
+                    doctoral: "Chief People Officer, Industrial-Organizational Psychologist, Executive Coach."
                 }
             },
             research: {
                 title: "Research & Academic Path",
                 description: "You are driven by curiosity and the pursuit of knowledge. This path involves conducting studies, analyzing data, and contributing to the scientific understanding of the mind and behavior, a core mission of the [APA Science Directorate](https://www.apa.org/science).",
                 roles: {
-                    ba: "Research Assistant, Data Analyst, Lab Manager.",
-                    ma: "University Lecturer, Research Scientist (in government or private sector).",
-                    phd: "University Professor, Principal Investigator, Senior Research Scientist."
+                    associates: "Research Assistant (data entry, recruitment), Survey Coder.",
+                    bachelors: "Research Assistant, Data Analyst, Lab Manager.",
+                    masters: "Community College Instructor, Research Scientist (in government or private sector).",
+                    doctoral: "University Professor, Principal Investigator, Senior Research Scientist."
                 }
             },
             tech: {
                 title: "Technology & User Experience (UX) Path",
                 description: "You're interested in the intersection of psychology and technology. This path focuses on making products and services more intuitive, effective, and enjoyable for users, a field explored in depth by [Human Factors psychologists](https://www.apa.org/education-career/guide/user-experience-design).",
                 roles: {
-                    ba: "UX Research Assistant, Content Strategist, Marketing Analyst.",
-                    ma: "UX Researcher, Product Manager, Human Factors Specialist.",
-                    phd: "Senior UX Researcher, Director of Product, Research Scientist (in tech)."
+                    associates: "UX Research Recruiting Coordinator, Quality Assurance Tester.",
+                    bachelors: "UX Research Assistant, Content Strategist, Marketing Analyst.",
+                    masters: "UX Researcher, Product Manager, Human Factors Specialist.",
+                    doctoral: "Senior UX Researcher, Director of Product, Research Scientist (in tech)."
                 }
             },
             closing: "This is a starting point for your exploration. To learn more, you can dive into the 'Explore Career Paths' section or get actionable advice in our 'Career & Skill Training' module.",

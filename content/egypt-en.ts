@@ -1,14 +1,13 @@
-
 const content = {
-    headerTitle: "The PsyEgypt",
-    headerSubtitle: "Career Pathfinder",
+    headerTitle: "PsyEgypt Career Pathfinder",
+    headerSubtitle: "An EPF Initiative by the APA",
     headerCollaboration: "In collaboration with the APA",
     inputPlaceholder: "Type your message or use the menu...",
     distressMessage: "It sounds like you are going through a difficult time. Please know that I am an AI assistant for career guidance only and cannot provide mental health support. **For immediate help, please contact The General Secretariat of Mental Health and Addiction Treatment hotline at 08008880700.** Please reach out to a qualified professional.",
     
     welcomeIntro: `Welcome to the PsyEgypt Career Pathfinder!
 
-I am an AI assistant supported by the [APA's 'Engaging Psychology's Future' (EPF) Initiative](https://www.apa.org/about/governance/president/engaging-psychologys-future), designed to help you explore career paths from the bachelor's to the doctoral level in Egypt and the MENA region.
+I am an AI assistant supported by the [APA's 'Engaging Psychology's Future' (EPF) Initiative](https://www.apa.org/about/governance/president/engaging-psychologys-future), designed to help you explore career paths from the bachelor's to the doctoral level in Egypt.
 
 > *A common myth is that you must have a graduate degree to find a job in psychology. The reality is that your Bachelor's degree opens doors to many exciting fields! In fact, data from the [APA's Center for Workforce Studies](https://www.apa.org/workforce/data-tools/bachelors-workforce) shows that the vast majority of psychology graduates enter the workforce with their Bachelor's degree.*
 >
@@ -18,9 +17,8 @@ How can I help you today?`,
     
     mainMenu: {
       explore: "🗺️ Explore Career Paths",
-      discoveryQuiz: "🧩 Career Discovery Quiz",
+      discoveryQuiz: "🧩 Exploration Starter",
       training: "🚀 Career & Skill Training",
-      expertQuestion: "💬 Ask an Expert Question",
       team: "🤝 Meet the Team",
       whatsNew: "✨ Join APA for Free",
       aboutUs: "👥 About Us"
@@ -33,7 +31,7 @@ Our mission is to empower you with clarity and confidence, bridging the gap betw
 
     quickNav: {
       mainMenu: "Main Menu",
-      discoveryQuiz: "Discovery Quiz",
+      discoveryQuiz: "Exploration Starter",
       training: "Training",
     },
 
@@ -55,14 +53,14 @@ Our mission is to empower you with clarity and confidence, bridging the gap betw
         marco: {
             title: "Marco Magdy Abdelmaseh, Creator & Developer",
             subtitle: "Founder of PsyEgypt | APA Campus Ambassador | AI Specialist",
-            bio: "Marco's journey into psychology wasn't linear. After starting in a different field, he made a courageous career shift, driven by a newfound passion for understanding the human mind. However, he quickly discovered that the path for aspiring psychologists in the MENA region was filled with obstacles: a lack of clear guidance, limited mentorship, and a gap between academic theory and real-world careers. This personal struggle wasn't a dead end; it became his mission. He founded PsyEgypt to build the very resource he wished he'd had.",
-            mission: "As an APA Campus Ambassador, Marco is dedicated to bridging the gap between international resources and local students. His mission is to use technology to democratize career knowledge, making the route into psychology clearer, more accessible, and less intimidating for the next generation of leaders in Egypt and the MENA region.",
+            bio: "Marco's journey into psychology wasn't linear. After starting in a different field, he made a courageous career shift, driven by a newfound passion for understanding the human mind. However, he quickly discovered that the path for aspiring psychologists in Egypt was filled with obstacles: a lack of clear guidance, limited mentorship, and a gap between academic theory and real-world careers. This personal struggle wasn't a dead end; it became his mission. He founded PsyEgypt to build the very resource he wished he'd had.",
+            mission: "As an APA Campus Ambassador, Marco is dedicated to bridging the gap between international resources and local students. His mission is to use technology to democratize career knowledge, making the route into psychology clearer, more accessible, and less intimidating for the next generation of leaders in Egypt.",
             quote: "I built this tool to be the supportive guide I never had. My vision is to use technology to bridge the gap between academic knowledge and real-world opportunity, empowering you to forge your own unique career with confidence."
         }
     },
 
     careerDiscoveryQuiz: {
-        startMessage: "This quiz will help you discover career paths that match your interests. Let's start by understanding where you are in your educational journey. What is your current or highest level of education?",
+        startMessage: "This simple activity will help you discover career paths that match your interests. **This is not a formal assessment**, but a tool to suggest a starting point for your exploration. Let's begin by understanding where you are in your educational journey. What is your current or highest level of education?",
         educationLevels: {
             thanwya: "High School (Thanaweya Amma) / Undergraduate Student",
             ba: "Bachelor's Degree (BA/BSc) in Psychology",
@@ -109,7 +107,7 @@ Our mission is to empower you with clarity and confidence, bridging the gap betw
             }
         ],
         results: {
-            header: "Based on your answers, here are the top career clusters that seem to align with your interests. This is a starting point for exploration, designed to spark ideas regardless of your current career stage.",
+            header: "Based on your answers, here are the top career clusters that seem to align with your interests. **This is a starting point for exploration, not a definitive career assignment.** Use these results to begin discovering the detailed paths available to you.",
             trainingPlan: "For an undergraduate, the best first step is to gain practical experience. To get started, we recommend following our **{clusterTitle} Training Plan** to build foundational skills.",
             clinical: {
                 title: "Clinical & Counseling Path",
@@ -263,7 +261,7 @@ Our mission is to empower you with clarity and confidence, bridging the gap betw
 *   Collaborating with doctors, social workers, and other professionals.
 
 **Required Education:**
-The journey starts with a Bachelor's degree in Psychology. In Egypt and the MENA region, a Master's degree is the minimum requirement to practice, often followed by specialized diplomas. For full licensure as a 'Psychologist' and more autonomy, a PhD or PsyD is typically necessary. To learn more about specialties, explore [APA Division 12 (Society of Clinical Psychology)](https://www.div12.org/).
+The journey starts with a Bachelor's degree in Psychology. In Egypt, a Master's degree is the minimum requirement to practice, often followed by specialized diplomas. For full licensure as a 'Psychologist' and more autonomy, a PhD or PsyD is typically necessary. To learn more about specialties, explore [APA Division 12 (Society of Clinical Psychology)](https://www.div12.org/).
 
 **Potential Work Environments:**
 You could find yourself working in diverse settings such as hospitals, private clinics, community mental health centers, schools, rehabilitation facilities, or even corporate wellness programs.`,

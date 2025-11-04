@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import type { Message, Choice, GroundingSource } from './types';
@@ -53,7 +52,7 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentMode, setCurrentMode] = useState<AppMode>('chat');
   const [chatHistory, setChatHistory] = useState<{ role: string; parts: { text: string }[] }[]>([]);
-  
+
   const [currentContent, setCurrentContent] = useState<any>(null);
   
   // Audio state
@@ -167,7 +166,6 @@ const App: React.FC = () => {
       { text: currentContent.mainMenu.explore, payload: 'explore_paths' },
       { text: currentContent.mainMenu.discoveryQuiz, payload: 'discovery_quiz' },
       { text: currentContent.mainMenu.training, payload: 'career_training' },
-      { text: currentContent.mainMenu.expertQuestion, payload: 'expert_question' },
       { text: currentContent.mainMenu.team, payload: 'team' },
       { text: currentContent.mainMenu.whatsNew, payload: 'whats_new' },
       { text: currentContent.mainMenu.aboutUs, payload: 'about_us' },
@@ -278,13 +276,53 @@ const App: React.FC = () => {
   // Quiz Logic
   const startQuiz = useCallback(() => {
       setQuizState({ active: true, currentQuestion: 0, answers: {}, educationLevel: null });
-      addMessage(currentContent.careerDiscoveryQuiz.startMessage, 'ai', [
-          { text: currentContent.careerDiscoveryQuiz.educationLevels.thanwya, payload: 'edu_thanwya'},
-          { text: currentContent.careerDiscoveryQuiz.educationLevels.ba, payload: 'edu_ba'},
-          { text: currentContent.careerDiscoveryQuiz.educationLevels.ma, payload: 'edu_ma'},
-          { text: currentContent.careerDiscoveryQuiz.educationLevels.phd, payload: 'edu_phd'},
-      ]);
+      
+      const educationChoices = Object.entries(currentContent.careerDiscoveryQuiz.educationLevels).map(([key, value]) => ({
+          text: value as string,
+          payload: `edu_${key}`
+      }));
+
+      addMessage(currentContent.careerDiscoveryQuiz.startMessage, 'ai', educationChoices);
   }, [currentContent, addMessage]);
+  
+  const endQuiz = useCallback((finalAnswers: Record<string, number>, educationLevel: string) => {
+    const sortedResults = Object.entries(finalAnswers).sort(([,a],[,b]) => b-a);
+    const topCategoryKey = sortedResults[0][0] as keyof typeof currentContent.careerDiscoveryQuiz.results;
+    
+    const results = currentContent.careerDiscoveryQuiz.results;
+    const topResult = results[topCategoryKey] as { title: string; description: string; roles: Record<string, string> };
+
+    const rolesForLevel = topResult.roles[educationLevel];
+    const defaultRoleKey = country === 'usa' ? 'bachelors' : 'ba';
+    const fallbackRoles = topResult.roles[defaultRoleKey];
+    const rolesText = rolesForLevel || fallbackRoles;
+
+    let resultText = `${results.header}\n\n### 1. ${topResult.title}\n${topResult.description}\n\n**Potential Roles for you:** ${rolesText || 'Explore entry-level roles in this field!'}\n\n`;
+
+    if (sortedResults.length > 1) {
+        const secondCategoryKey = sortedResults[1][0] as keyof typeof currentContent.careerDiscoveryQuiz.results;
+        const secondResult = results[secondCategoryKey] as { title: string; description: string; roles: Record<string, string> };
+        resultText += `### 2. ${secondResult.title}\n${secondResult.description}\n\n`;
+    }
+
+    const highSchoolKeys = ['thanwya', 'high_school'];
+    if (highSchoolKeys.includes(educationLevel)) {
+      resultText += `> ${results.trainingPlan.replace('{clusterTitle}', topResult.title)}\n\n`;
+    }
+    
+    resultText += results.closing;
+    
+    setQuizState(prevState => ({...prevState, active: false}));
+
+    const quickNavChoices: Choice[] = [
+      { text: currentContent.quickNav.mainMenu, payload: 'main_menu' },
+      { text: currentContent.mainMenu.explore, payload: 'explore_paths' },
+      { text: currentContent.mainMenu.training, payload: 'career_training' },
+    ];
+    
+    addMessage(resultText, 'ai', quickNavChoices);
+
+  }, [currentContent, addMessage, country]);
 
   const handleQuizAnswer = useCallback((payload: string) => {
       if (!quizState.active) return;
@@ -304,39 +342,10 @@ const App: React.FC = () => {
           const nextQuestion = currentContent.careerDiscoveryQuiz.questions[nextQuestionIndex];
           addMessage(nextQuestion.question, 'ai', nextQuestion.answers);
       } else {
-          setQuizState(prevState => ({ ...prevState, active: false }));
+          setQuizState(prevState => ({ ...prevState, answers: newAnswers }));
           endQuiz(newAnswers, quizState.educationLevel as string);
       }
-  }, [quizState, currentContent, addMessage]);
-  
-  const endQuiz = useCallback((finalAnswers: Record<string, number>, educationLevel: string) => {
-    const sortedResults = Object.entries(finalAnswers).sort(([,a],[,b]) => b-a);
-    const topCategoryKey = sortedResults[0][0] as keyof typeof currentContent.careerDiscoveryQuiz.results;
-    
-    const results = currentContent.careerDiscoveryQuiz.results;
-    const topResult = results[topCategoryKey] as { title: string; description: string; roles: Record<string, string> };
-
-    let resultText = `${results.header}\n\n### 1. ${topResult.title}\n${topResult.description}\n\n**Potential Roles for you:** ${topResult.roles[educationLevel] || topResult.roles.ba}\n\n`;
-
-    if (sortedResults.length > 1) {
-        const secondCategoryKey = sortedResults[1][0] as keyof typeof currentContent.careerDiscoveryQuiz.results;
-        const secondResult = results[secondCategoryKey] as { title: string; description: string; roles: Record<string, string> };
-        resultText += `### 2. ${secondResult.title}\n${secondResult.description}\n\n`;
-    }
-
-    if (educationLevel === 'thanwya') {
-      resultText += `> ${results.trainingPlan.replace('{clusterTitle}', topResult.title)}\n\n`;
-    }
-    
-    resultText += results.closing;
-
-    addMessage(resultText, 'ai', [
-        { text: currentContent.mainMenu.explore, payload: 'explore_paths'},
-        { text: currentContent.mainMenu.training, payload: 'career_training'},
-        { text: currentContent.navigation.mainMenu, payload: 'main_menu'},
-    ]);
-
-  }, [currentContent, addMessage]);
+  }, [quizState, currentContent, addMessage, endQuiz]);
   
   const startOver = useCallback(() => {
     stopAudioPlayback();
@@ -370,7 +379,7 @@ const App: React.FC = () => {
       setMessages(prev => [...prev, userMessage, aiMessage]);
       return;
     }
-    
+
     let choiceText = '';
     const lastMessage = messages[messages.length - 1];
     if (lastMessage && lastMessage.choices) {
@@ -433,9 +442,6 @@ const App: React.FC = () => {
     // Main navigation logic
     if (payload === 'discovery_quiz') {
         startQuiz();
-    } else if (payload === 'expert_question') {
-        addMessage(currentContent.expertQuestionPrompt, 'ai');
-        setCurrentMode('analysis');
     } else if (payload === 'team') {
         addMessage(currentContent.team.prompt, 'ai', [
             { text: currentContent.team.menu.jaye, payload: 'team_jaye' },
@@ -693,7 +699,7 @@ const App: React.FC = () => {
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Egypt Card */}
             <div className="bg-brand-primary/50 p-4 rounded-lg border border-white/10">
-              <h2 className="text-xl font-bold text-white mb-3">Egypt & MENA Region</h2>
+              <h2 className="text-xl font-bold text-white mb-3">Egypt</h2>
               <div className="space-y-2">
                 <button
                     onClick={() => { setCountry('egypt'); setLanguage('en'); }}
