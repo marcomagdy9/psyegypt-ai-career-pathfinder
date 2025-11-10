@@ -1,36 +1,14 @@
-
 import React, { useRef, useEffect } from 'react';
-import type { Message } from '../types';
 import { BotIcon, UserIcon, SpeakerIcon, PlayIcon, PauseIcon, ExternalLinkIcon, CopyIcon, CheckIcon, ThinkingIcon } from './icons';
 import ChoiceButton from './ChoiceButton';
 import ReactMarkdown from 'react-markdown';
-
-interface ChatWindowProps {
-  messages: Message[];
-  isLoading: boolean;
-  onChoiceClick: (payload: string) => void;
-  language: 'en' | 'ar' | null;
-  onToggleAudio: (text: string, messageId: number) => void;
-  audioPlayback: { messageId: number | null; status: 'playing' | 'paused' };
-  isAudioLoading: number | null;
-  isSoundEnabled: boolean;
-  quizProgressText: string | null;
-}
 
 const AudioSpinner = () => (
     <div className="h-5 w-5 border-2 border-t-transparent border-brand-primary rounded-full animate-spin"></div>
 );
 
-const ChatBubble: React.FC<{
-    message: Message;
-    onChoiceClick: (payload: string) => void;
-    onToggleAudio: (text: string, messageId: number) => void;
-    language: 'en' | 'ar' | null;
-    audioPlayback: { messageId: number | null; status: 'playing' | 'paused' };
-    isAudioLoading: number | null;
-    isSoundEnabled: boolean;
-    renderChoices: boolean;
-}> = ({ message, onChoiceClick, onToggleAudio, language, audioPlayback, isAudioLoading, isSoundEnabled, renderChoices }) => {
+const ChatBubble = (props) => {
+    const { message, onChoiceClick, onToggleAudio, language, audioPlayback, isAudioLoading, isSoundEnabled, renderChoices } = props;
     const isAi = message.sender === 'ai';
     const [isCopied, setIsCopied] = React.useState(false);
 
@@ -50,7 +28,7 @@ const ChatBubble: React.FC<{
         });
     }, [textContent]);
 
-    const LinkRenderer = (props: any) => {
+    const LinkRenderer = (props) => {
         const tooltipText = language === 'ar' ? 'يفتح في علامة تبويب جديدة' : 'Opens in a new tab';
         return (
             <a 
@@ -86,7 +64,7 @@ const ChatBubble: React.FC<{
                 <div className={`flex flex-col max-w-sm md:max-w-md lg:max-w-lg ${isAi ? 'items-start' : 'items-end'}`}>
                     <div className={`flex flex-col p-3 text-sm text-white ${bubbleColor} rounded-xl ${bubbleRadius}`}>
                         {typeof message.text === 'string' ? (
-                            <div className="prose prose-invert prose-p:my-1 prose-a:text-brand-accent prose-a:hover:underline">
+                            <div dir="auto" className="prose prose-invert prose-p:my-1 prose-a:text-brand-accent prose-a:hover:underline">
                                 <ReactMarkdown components={{ a: LinkRenderer }}>
                                     {message.text}
                                 </ReactMarkdown>
@@ -136,7 +114,7 @@ const ChatBubble: React.FC<{
     );
 };
 
-export const ChatWindow: React.FC<ChatWindowProps> = ({
+export const ChatWindow = ({
   messages,
   isLoading,
   onChoiceClick,
@@ -147,7 +125,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   isSoundEnabled,
   quizProgressText,
 }) => {
-  const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -164,7 +142,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
           {quizProgressText}
         </div>
       )}
-      {messages.map((message, index) => (
+      {messages.map((message) => (
         <ChatBubble
           key={message.id}
           message={message}
@@ -174,7 +152,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
           audioPlayback={audioPlayback}
           isAudioLoading={isAudioLoading}
           isSoundEnabled={isSoundEnabled}
-          renderChoices={index === messages.length - 1 && !isLoading}
+          renderChoices={messages.indexOf(message) === messages.length - 1 && !isLoading}
         />
       ))}
       {isLoading && (

@@ -2,7 +2,6 @@ const content = {
     headerTitle: "PsyEgypt Career Pathfinder",
     headerSubtitle: "An EPF Initiative by the APA",
     headerCollaboration: "In collaboration with the APA",
-    inputPlaceholder: "Type your message or use the menu...",
     distressMessage: "It sounds like you are going through a difficult time. Please know that I am an AI assistant for career guidance only and cannot provide mental health support. **For immediate help, please contact The General Secretariat of Mental Health and Addiction Treatment hotline at 08008880700.** Please reach out to a qualified professional.",
     
     welcomeIntro: `Welcome to the PsyEgypt Career Pathfinder!
@@ -16,26 +15,205 @@ I am an AI assistant supported by the [APA's 'Engaging Psychology's Future' (EPF
 How can I help you today?`,
     
     mainMenu: {
-      explore: "🗺️ Explore Career Paths",
-      discoveryQuiz: "🧩 Exploration Starter",
-      training: "🚀 Career & Skill Training",
+      explore_paths: "🗺️ Explore Career Paths",
+      discovery_quiz: "🧩 Exploration Starter",
+      career_training: "🚀 Career & Skill Training",
+      career_insights: "📊 Career Insights & Data",
+      qna_start: "💬 Q&A",
+      our_report: "📜 Our Research Report",
       team: "🤝 Meet the Team",
-      whatsNew: "✨ Join APA for Free",
-      aboutUs: "👥 About Us"
+      whats_new: "✨ Join APA for Free",
+      about_us: "👥 About Us"
     },
+
+    fixedQna: {
+      prompt: "Here are some frequently asked questions about careers in psychology in Egypt, based on the latest 2025-2026 data. Select one to see the answer.",
+      questions: [
+        {
+          question: "What's the difference between studying at a public vs. private university?",
+          payload: "qna_1",
+          answer: `This is a fundamental choice that shapes your entire career trajectory.
+*   **Public Universities (e.g., Ain Shams, Cairo):** Are research-focused ('scientist' model), primarily teach in Arabic, and lead to careers in the public sector and traditional academia.
+*   **Private Universities (e.g., AUC, BUE):** Are practitioner-focused ('professional practitioner' model), teach in English, have international accreditation, and funnel graduates into private practice, international NGOs, and multinational corporations. The high cost of tuition also acts as a socioeconomic filter.
+
+**Source:** *Mapping a Profession: A Strategic Blueprint for Data-Insight Guides*`
+        },
+        {
+          question: "Where are the best job opportunities for psychology graduates?",
+          payload: "qna_2",
+          answer: `The data shows a clear economic split. While the societal need is in clinical care, the best-paying and highest-demand domestic jobs are in the **"Corporate Siphon"** and the **"Third Pathway"**:
+*   **Corporate Sector:** A senior Industrial-Organizational Psychologist can earn over 50% more than a senior Clinical Psychologist. Roles in HR, Organizational Development, and Talent Management are in high demand.
+*   **Tech & Business Sector:** UX Research and Market Research are the most lucrative fields, with senior roles earning significantly more than clinical counterparts.
+*   **Digital Health Platforms:** The rise of tele-psychology platforms (e.g., O7 Therapy) represents a major new, flexible career path.
+
+**Source:** *The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis*`
+        },
+        {
+          question: "Can I practice psychotherapy with a psychology degree?",
+          payload: "qna_3",
+          answer: `This is legally complex and high-risk. The right to practice is **not automatic**.
+*   The title "Psychotherapist" is legally restricted to medical doctors (psychiatrists) unless a non-doctor obtains a specific, separate license from the Ministry of Health.
+*   Practicing with only a Bachelor's degree is considered a serious "ethical violation."
+*   The new **2025 Medical Liability Law** introduces severe penalties, including imprisonment, for medical errors. Psychologists may be held liable under this law without the institutional protection of the Medical Syndicate, making private practice significantly more perilous.
+
+**Source:** *The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis*`
+        },
+        {
+          question: "What is the biggest challenge facing psychologists in Egypt?",
+          payload: "qna_4",
+          answer: `The central challenge is a paradox: a massive societal need for mental health (a 99.6% treatment gap) is met with systemic dysfunction. This includes:
+*   **Legal Ambiguity:** A developing and confusing regulatory framework.
+*   **Economic Precarity:** Low clinical salaries that don't keep pace with the high cost of living in Cairo.
+*   **Public Sector Collapse:** A "doctors' exodus" and fee hikes have made the public sector an unviable career path.
+*   **Brain Drain:** A 10x-15x salary difference pulls experienced talent to the Gulf countries, worsening the local workforce shortage.
+
+**Source:** *The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis*`
+        }
+      ]
+    },
+
+    careerInsights: {
+      prompt: "Welcome to the Career Data & Insights Hub. This entire section is based on a critical analysis of the Egyptian psychology profession for 2025-2026, revealing a field in rapid transition. What would you like to explore?",
+      menu: {
+        licensing: "The Legal & Regulatory Gauntlet",
+        market: "The Labor Market & Economics",
+        public_sector: "Public Sector vs. Brain Drain",
+        digital_pathway: "The Digital 'Third Pathway'",
+        education: "The Educational Landscape"
+      },
+      licensingContent: `### The Legal & Regulatory Gauntlet: A System in Flux
+
+The primary challenge is not clinical, but legal. The environment is moving from unregulated to a new, high-risk framework.
+
+**The Tripartite Professional Divide:**
+*   **Psychiatrist:** A fully regulated medical doctor, licensed by the Ministry of Health (MOHP) and Medical Syndicate. Can legally diagnose, prescribe, and perform psychotherapy.
+*   **Psychologist:** A profession with "developing regulation." The MOHP formed a new committee in 2024 to create a licensing system, creating uncertainty for practitioners.
+*   **Psychotherapist:** A legally restricted title. The law reserves this for psychiatrists, unless a non-doctor obtains a special MOHP license.
+
+**2025 Legislative Upheaval:**
+A new **Medical Liability and Patient Safety Law (2025)** is the most critical development. It introduces harsh criminal penalties, including **imprisonment for up to 10 years**, for medical errors resulting from "gross negligence." Psychologists are in a high-risk position: they may be held liable under this punitive law without the legal protection and defined standards of the Medical Syndicate. This makes private practice significantly more perilous.
+
+**Source:** *The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis*`,
+      marketContent: `### The Labor Market: The "Corporate Siphon" and Economic Reality
+
+For a profession with high societal need, the economic incentives for clinicians are disproportionately low.
+
+**The Corporate Siphon:**
+Data reveals a stark financial hierarchy. A senior **Industrial-Organizational (I-O) Psychologist** in Cairo earns an average of **EGP 613,369**, which is **52% more** than a senior **Clinical Psychologist** (avg. EGP 402,954). The market is actively pulling talent *out* of healthcare and into better-paying corporate roles in HR, OD, and talent management.
+
+**Salary vs. Cost of Living:**
+A mid-career psychologist in Cairo can expect to spend over **37% of their gross monthly income** on just rent and basic utilities. This economic precarity is a major "push" factor driving professionals to seek other opportunities.
+
+**The Most Lucrative Path:**
+The **Tech and Business Sector** (UX Research, Market Research) offers the highest earning potential, with senior roles paying significantly more than both clinical and corporate HR paths.
+
+**Source:** *The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis*`,
+      public_sectorContent: `### The Public Sector Collapse & The "Brain Drain"
+
+The economic disincentives in the clinical track are the "pull" factors for emigration. The catastrophic state of public healthcare provides the "push."
+
+**The Public Sector Crisis:**
+*   **Mass Resignations:** A "doctors' exodus" is underway, with over 21,000 physicians resigning from the public sector between 2020-2025, citing poor working conditions and burnout.
+*   **Effective Privatization:** In 2025, a ministerial decree increased service fees at public psychiatric hospitals by up to **900%**, introducing fees for previously free services. This effectively dismantles the public sector as a viable career path dedicated to serving the most vulnerable.
+
+**The 10x Salary "Escape Pod":**
+The "brain drain" to Gulf countries is an overwhelming economic force. A psychologist in the UAE can earn, on average, **10 to 15 times the salary** of their colleague in Egypt.
+*   **Avg. Clinical Psychologist Salary (Egypt):** ~EGP 320,000
+*   **Avg. Clinical Psychologist Salary (Dubai, UAE):** ~EGP 3,241,000 (equivalent)
+
+This option, however, requires a Master's degree, 2+ years of experience, and navigating a highly bureaucratic foreign licensing process (e.g., Dubai's DHA).
+
+**Source:** *The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis*`,
+      digital_pathwayContent: `### The Digital 'Third Pathway': A Market-Based Solution
+
+The failure of the state and the traditional market has created a vacuum, now being filled by digital tele-psychology platforms like **Shezlong**, **O7 Therapy**, and **Estaraht**.
+
+**Why They Are Succeeding:**
+These platforms are a direct market response to Egypt's primary barriers to care:
+*   They bypass social **stigma** by offering anonymity.
+*   They solve the **geographic** rural-urban access crisis.
+*   They are built for **Arabic-speaking users**, understanding cultural nuances.
+
+**A New Career Model & Divergent Standards:**
+In the absence of state licensing, platforms have become regulators.
+*   **Curated Model (O7 Therapy):** Highly selective (20% acceptance rate), requires a Master's degree, and has its own in-house supervision institute (O7 Academy) that new professionals must complete. This is a private, market-based solution to the public supervision failure.
+*   **Open Marketplace Model (Shezlong):** A broader platform inviting professionals worldwide, relying more on user reviews and practitioner-provided credentials.
+
+**The Unresolved Risk:**
+This entire sector operates under the shadow of state surveillance. The ethical and legal challenge of guaranteeing patient confidentiality in Egypt's complex digital environment is a significant, unresolved risk for both practitioners and clients.
+
+**Source:** *The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis*`,
+      educationContent: `### The Educational Foundation: A Fundamental Split
+
+Your choice of university can pre-define your career path. The system is split into two distinct tracks:
+
+*   **Public Universities (The "Scientist" Model):**
+    *   **Institutions:** Ain Shams University, Cairo University.
+    *   **Focus:** Research-oriented, designed to create academics.
+    *   **Language:** Arabic.
+    *   **Outcome:** Prepares graduates for the (now collapsing) public sector and academic research.
+
+*   **Private Universities (The "Professional Practitioner" Model):**
+    *   **Institutions:** The American University in Cairo (AUC), The British University in Egypt (BUE).
+    *   **Focus:** Practitioner-oriented, with a non-thesis Master's option (at AUC) designed for clinical practice.
+    *   **Language:** English, with international accreditation.
+    *   **Outcome:** Prepares graduates for private practice, international NGOs, and corporate roles. The high tuition (e.g., ~$9,500/year for AUC's MA) also acts as a significant socioeconomic filter.
+
+**Source:** *Mapping a Profession: A Strategic Blueprint for Data-Insight Guides*`,
+    },
+    
+    ourReport: `This guide is built upon a comprehensive research report, **"The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis"**, prepared by the PsyEgypt community team. This report synthesizes data from academic journals, governmental publications, salary aggregators, and professional organizations to provide a clear and realistic view of the profession. Below are the primary sources used in its creation:
+
+### Part 1: Regulatory & Legal Framework
+*   [Adsero - Ragy Soliman & Partners. (2025). Egypt Introduces Comprehensive Law on Medical Liability and Patient Safety.](https://adsero.me/egypt-introduces-comprehensive-law-on-medical-liability-and-patient-safety/)
+*   [Zawia 3. (2025). Psychotherapy: Ministerial Decree Raises Service Prices in Psychiatric Hospitals by 900%.](https://zawia3.com/en/psychotherapy/)
+*   [TherapyRoute. (2025). Mental Health Licensing & Regulation in Egypt: 2025 Guide.](https://www.therapyroute.com/article/mental-health-licensing-regulation-in-egypt-2025-guide-by-therapyroute)
+*   [Daily News Egypt. (2024). Egypt to tighten regulations on private mental health facilities.](https://www.dailynewsegypt.com/2024/07/29/egypt-to-tighten-regulations-on-private-mental-health-facilities/)
+*   [Amnesty International. (2024). Egypt: New law threatens to reduce access to healthcare for millions.](https://www.amnesty.org/en/latest/news/2024/07/egypt-new-law-threatens-to-reduce-access-to-healthcare-for-millions/)
+
+### Part 2: Workforce Crisis & Stigma
+*   [Ministry of Health and Population. (2024). The National Health Strategy for the Arab Republic of Egypt (2024-2030).](https://www.100millionseha.eg/download/Egypt_National_Health_Strategy_2024-2030.pdf)
+*   [Abolfotouh, M. A., et al. (2020). Electronic Mental Health in Egypt: A Cross-Sectional Survey of Egyptian Psychiatrists.](https://pmc.ncbi.nlm.nih.gov/articles/PMC7453323/)
+*   [Okasha, T., et al. (2025). Mental health services in Egypt, the Middle East, and North Africa.](https://www.tandfonline.com/doi/full/10.1080/09540261.2024.2400143)
+*   [El-Ghamry, S. M., et al. (2025). Perceived stigma toward individuals with mental illness and their families.](https://www.researchgate.net/publication/395767228_Perceived_stigma_toward_individuals_with_mental_illness_and_their_families_perspectives_of_patients'_relatives_in_a_multicentric_Egyptian_study)
+
+### Part 3: Economic Realities & Salary
+*   [SalaryExpert (ERI). (2025). Various Salary Reports for Psychologists in Egypt.](https://www.salaryexpert.com/salary/job/clinical-psychologist/egypt)
+*   [ERI Economic Research Institute. (2025). Psychologist Salary in Egypt.](https://www.erieri.com/salary/job/psychologist/egypt)
+*   [Wise. (2025). Cost of Living in Cairo.](https://wise.com/gb/cost-of-living/egypt/cairo)
+
+### Part 4: Public vs. Private Sector & Brain Drain
+*   [Zawia 3. (2025). Doctors' Exodus: Why are 12 Doctors Resigning Daily?](https://zawia3.com/en/doctors-5/)
+*   [AUC, APS. (2025). Addressing the Doctors' Exodus.](https://aps.aucegypt.edu/en/articles/1488/addressing-the-doctors-exodus-retaining-egypts-talent-and-harnessing-global-expertise)
+*   [Konrad-Adenauer-Stiftung (KAS). (2025). Highly Skilled Migration from Egypt to the Gulf States.](https://www.kas.de/en/web/rpg/detail/-/content/highly-skilled-migration-from-egypt-to-the-gulf-states)
+*   [SalaryExpert (ERI). (2025). Salary Reports for Psychologists in UAE.](https://www.salaryexpert.com/salary/job/clinical-psychologist/united-arab-emirates/dubai)
+*   [Dubai Health Authority (DHA). (2025). Professional Qualification Requirements (PQR).](https://services.dha.gov.ae/sheryan/wps/contenthandler/war/SheryanHomeThemeStatic/themes/Portal8.5/docs/PQR_April_2025.pdf)
+
+### Part 5: The "Third Pathway" (Digital Health)
+*   [O7 Therapy. (2025). O7 Academy.](https://www.o7therapy.com/academy)
+*   [The Business Research Company. (2024). Online Psychology Counseling Global Market Report.](https://www.thebusinessresearchcompany.com/report/online-psychology-counseling-global-market-report)
+*   [Freedom House. (2024). Freedom on the Net 2024: Egypt.](https://freedomhouse.org/country/egypt/freedom-net/2024)
+
+### Part 6: Job Market Analysis
+*   [Wuzzuf. (2025). Various Job Postings for Psychologists in Egypt.](https://wuzzuf.net/a/Clinical-Psychologist-Jobs-in-Egypt)
+*   [NGO Jobs in Africa. (2025). Psychologist - Alexandria, Egypt.](https://ngojobsinafrica.com/job/psychologist-alexandria-egypt/)
+`,
+
     aboutUsContent: `This Career Pathfinder was developed by **PsyEgypt (مجتمع علم النفس في مصر)**, the pioneering platform for psychology in Egypt. PsyEgypt is the first initiative of its kind to connect the international scientific community with the local community, offering AI-powered services to empower students and graduates. Our work is a direct execution of the **[APA's 'Engaging Psychology's Future' (EPF) Presidential Initiative](https://www.apa.org/about/governance/president/engaging-psychologys-future/resources).**
 
 Inspired by the vision of **Dr. Jaye Van Kirk**, we are dedicated to challenging the myth that a graduate degree is the only path to a successful career in psychology. This tool is designed to illuminate the diverse and exciting career opportunities available to you right now, with your Bachelor's degree.
 
-Our mission is to empower you with clarity and confidence, bridging the gap between your academic knowledge and its powerful application in the real world. We're here to help you navigate your future and become part of the next generation of psychology leaders.`,
-
+Our mission is to empower you with clarity and confidence, bridging the gap between your academic knowledge and its powerful application in the real world. We're here to help you navigate your future and become part of the next generation of psychology leaders. The insights for the Egypt region are based on a critical 2025-2026 analysis of the professional landscape.`,
+      
     quickNav: {
-      mainMenu: "Main Menu",
-      discoveryQuiz: "Exploration Starter",
+      main_menu: "Main Menu",
+      discovery_quiz: "Exploration Starter",
       training: "Training",
     },
 
-    expertQuestionPrompt: "You can now ask me an expert-level question about psychology careers. For topics requiring the most current information, I will access up-to-date sources from the web. For complex career strategy questions, I will use advanced reasoning to provide a deep analysis.",
+    placeholders: {
+      menu: "Select an option or click the icons below...",
+    },
 
     team: {
         prompt: "Meet the team behind the PsyEgypt Career Pathfinder. Our mission combines deep academic expertise with innovative technology to support your journey. Who would you like to learn about?",
@@ -242,7 +420,6 @@ Our mission is to empower you with clarity and confidence, bridging the gap betw
         clinical: "Clinical Path",
         academic: "Academic Path"
     },
-
     
     // Clinical Path
     clinicalHookPrompt: "Excellent. The Clinical Path is a rewarding journey to help people directly. What aspect of this path interests you most?",
@@ -351,6 +528,7 @@ The primary work environment is a university or college. Researchers can also wo
       pathOverview: "Detailed Overview",
       coreSkills: "Key Transferable Skills"
     },
+    // FIX: Replaced truncated template literal with full content.
     bachelorsPathOverview: `This is the most common path, taken by the vast majority of psychology graduates—around 90% according to [APA workforce studies](https://www.apa.org/workforce/data-tools/bachelors-workforce). It's a common misconception that a graduate degree is required for a successful career, but the skills you learn in your Bachelor's program are highly sought after across many industries.
 
 **Key Insight:** You are not just learning about psychology; you are learning how to understand people, analyze data, communicate complex ideas, and solve problems—skills every employer wants.
@@ -358,7 +536,7 @@ The primary work environment is a university or college. Researchers can also wo
 **Potential Career Fields:**
 *   **Human Resources:** Roles in recruiting, training, and employee relations.
 *   **Market Research:** Analyzing consumer behavior to inform business strategy.
-*   **User Experience (UX):** As you saw with our mentor Omar, this field blends psychology and tech to make products more user-friendly.
+*   **User Experience (UX):** This field blends psychology and tech to make products more user-friendly.
 *   **Social & Community Services:** Working as a case manager or in non-profits to support communities.
 *   **Sales & Marketing:** Using principles of persuasion and communication to connect with customers.
 
@@ -369,7 +547,7 @@ Another is **Communication**. This isn't just about speaking or writing well, bu
 
 Finally, there's **Data Literacy**. Your training in research methods and statistics, even at a basic level, is a huge asset.
 
-These are all detailed in the APA's guide on [Transferable Skills (PDF)](https://www.apa.org/education-career/guide/transferable-skills.pdf). Focusing on how to present these skills on your CV is a crucial next step.`,
+These are all detailed in the APA's guide on [Transferable Skills (PDF)](https://www.apa.org/education-career/guide/transferable-skills.pdf). Focusing on how to present these skills on your resume is a crucial next step.`,
 
 
     underConstruction: "This is an important area. This interactive module is currently under development, but I can offer you our main resources now.",
@@ -383,18 +561,19 @@ These are all detailed in the APA's guide on [Transferable Skills (PDF)](https:/
     feedbackThanks: "Thank you for your feedback! To help us improve and support the APA's mission, could you answer one quick question?",
     challengeTitle: "Weekly Pathfinder Challenge",
     challengeText: "Spend 15 minutes researching one Egyptian professional on LinkedIn who has the career you want. Send them a polite, professional connection request. This is the first step to building your network!",
-
+    
     navigationPrompt: "What's next?",
     navigation: {
-        mainMenu: "Main Menu",
-        startOver: "Restart",
-        endChat: "End Chat",
-        backToClinical: "Back to Clinical Path",
-        backToAcademic: "Back to Academic Path",
-        backToExplore: "Back to Career Paths",
-        backToBachelors: "Back to BA/BSc Path",
-        compareAcademic: "Compare with Academic",
-        compareClinical: "Compare with Clinical",
+        main_menu: "Main Menu",
+        start_over: "Restart",
+        end_chat: "End Chat",
+        back_to_clinical: "Back to Clinical Path",
+        back_to_academic: "Back to Academic Path",
+        back_to_explore: "Back to Career Paths",
+        back_to_bachelors: "Back to BA/BSc Path",
+        back_to_insights: "Back to Data & Insights",
+        compare_academic: "Compare with Academic",
+        compare_clinical: "Compare with Clinical",
     },
     endChatPrompt: "Thank you for using the Pathfinder! We wish you the best in your career journey. Before you go, would you like to provide more detailed feedback?",
 };
