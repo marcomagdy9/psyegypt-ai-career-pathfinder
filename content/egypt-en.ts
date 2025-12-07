@@ -1,16 +1,16 @@
 const content = {
     headerTitle: "PsyEgypt Career Pathfinder",
-    headerSubtitle: "An EPF Initiative by the APA",
-    headerCollaboration: "In collaboration with the APA",
+    headerSubtitle: "Psychology Career Guidance",
+    headerCollaboration: "An Independent Initiative",
     distressMessage: "It sounds like you are going through a difficult time. Please know that I am an AI assistant for career guidance only and cannot provide mental health support. **For immediate help, please contact The General Secretariat of Mental Health and Addiction Treatment hotline at 08008880700.** Please reach out to a qualified professional.",
     
     welcomeIntro: `Welcome to the PsyEgypt Career Pathfinder!
 
-I am an AI assistant supported by the [APA's 'Engaging Psychology's Future' (EPF) Initiative](https://www.apa.org/about/governance/president/engaging-psychologys-future), designed to help you explore career paths from the bachelor's to the doctoral level in Egypt.
+I am an AI assistant designed to help you explore career paths from the bachelor's to the doctoral level in Egypt. My responses are informed by public resources from the [APA's 'Engaging Psychology's Future' (EPF) Initiative](https://www.apa.org/about/governance/president/engaging-psychologys-future).
 
 > *A common myth is that you must have a graduate degree to find a job in psychology. The reality is that your Bachelor's degree opens doors to many exciting fields! In fact, data from the [APA's Center for Workforce Studies](https://www.apa.org/workforce/data-tools/bachelors-workforce) shows that the vast majority of psychology graduates enter the workforce with their Bachelor's degree.*
 >
-> — Insight from Dr. Jaye Van Kirk, Professor Emeritus of Psychology
+> — Insight from Professor Jaye Van Kirk, Professor Emeritus of Psychology
 
 How can I help you today?`,
     
@@ -22,7 +22,7 @@ How can I help you today?`,
       qna_start: "💬 Q&A",
       our_report: "📜 Our Research Report",
       team: "🤝 Meet the Team",
-      whats_new: "✨ Join APA for Free",
+      whats_new: "✨ Membership Resources",
       about_us: "👥 About Us"
     },
 
@@ -199,11 +199,13 @@ Your choice of university can pre-define your career path. The system is split i
 *   [NGO Jobs in Africa. (2025). Psychologist - Alexandria, Egypt.](https://ngojobsinafrica.com/job/psychologist-alexandria-egypt/)
 `,
 
-    aboutUsContent: `This Career Pathfinder was developed by **PsyEgypt (مجتمع علم النفس في مصر)**, the pioneering platform for psychology in Egypt. PsyEgypt is the first initiative of its kind to connect the international scientific community with the local community, offering AI-powered services to empower students and graduates. Our work is a direct execution of the **[APA's 'Engaging Psychology's Future' (EPF) Presidential Initiative](https://www.apa.org/about/governance/president/engaging-psychologys-future/resources).**
+    aboutUsContent: `This Career Pathfinder was developed by **PsyEgypt (مجتمع علم النفس في مصر)**, the pioneering platform for psychology in Egypt.
 
-Inspired by the vision of **Dr. Jaye Van Kirk**, we are dedicated to challenging the myth that a graduate degree is the only path to a successful career in psychology. This tool is designed to illuminate the diverse and exciting career opportunities available to you right now, with your Bachelor's degree.
+This is an independent educational tool that utilizes publicly available data and frameworks from the American Psychological Association (APA) and other research bodies. **Please note: This website is an independent initiative and is not officially affiliated with, endorsed by, or a product of the APA.**
 
-Our mission is to empower you with clarity and confidence, bridging the gap between your academic knowledge and its powerful application in the real world. We're here to help you navigate your future and become part of the next generation of psychology leaders. The insights for the Egypt region are based on a critical 2025-2026 analysis of the professional landscape.`,
+Inspired by the vision of **Professor Jaye Van Kirk**, we are dedicated to challenging the myth that a graduate degree is the only path to a successful career in psychology. This tool is designed to illuminate the diverse and exciting career opportunities available to you right now, with your Bachelor's degree.
+
+Our mission is to empower you with clarity and confidence, bridging the gap between your academic knowledge and its powerful application in the real world.`,
       
     quickNav: {
       main_menu: "Main Menu",
@@ -218,21 +220,21 @@ Our mission is to empower you with clarity and confidence, bridging the gap betw
     team: {
         prompt: "Meet the team behind the PsyEgypt Career Pathfinder. Our mission combines deep academic expertise with innovative technology to support your journey. Who would you like to learn about?",
         menu: {
-            jaye: "Dr. Jaye Van Kirk (Mentor)",
+            jaye: "Prof. Jaye Van Kirk (Mentor)",
             marco: "Marco Magdy (Creator)"
         },
         jaye: {
-            title: "Dr. Jaye Van Kirk, Mentor",
+            title: "Professor Jaye Van Kirk, Mentor",
             subtitle: "Professor Emeritus of Psychology, San Diego Mesa College | Past National President, Psi Beta",
-            bio: "With over 15 years of experience teaching a dedicated 'Careers in Psychology' course, Dr. Van Kirk is a leading expert in helping students navigate their professional journey. Her approach is grounded in research-based evidence from sources like the APA's Center for Workforce Studies, aiming to provide students with a realistic and empowering view of their career options.",
-            mission: "To debunk the pervasive myth that a graduate degree is the only path to a successful career in psychology. Dr. Van Kirk is passionate about empowering students to recognize the immense value and marketability of their Bachelor's degree, equipping them with the knowledge to confidently enter the workforce.",
+            bio: "With over 15 years of experience teaching a dedicated 'Careers in Psychology' course, Professor Van Kirk is a leading expert in helping students navigate their professional journey. Her approach is grounded in research-based evidence from sources like the APA's Center for Workforce Studies, aiming to provide students with a realistic and empowering view of their career options.",
+            mission: "To debunk the pervasive myth that a graduate degree is the only path to a successful career in psychology. Professor Van Kirk is passionate about empowering students to recognize the immense value and marketability of their Bachelor's degree, equipping them with the knowledge to confidently enter the workforce.",
             quote: "The data is clear: you are highly employable *now*. Be proactive. Seek out undergraduate research opportunities, volunteer, and conduct informational interviews. These experiences, combined with the skills from your degree, will make you a standout candidate."
         },
         marco: {
             title: "Marco Magdy Abdelmaseh, Creator & Developer",
-            subtitle: "Founder of PsyEgypt | APA Campus Ambassador | AI Specialist",
+            subtitle: "Founder of PsyEgypt | AI Specialist",
             bio: "Marco's journey into psychology wasn't linear. After starting in a different field, he made a courageous career shift, driven by a newfound passion for understanding the human mind. However, he quickly discovered that the path for aspiring psychologists in Egypt was filled with obstacles: a lack of clear guidance, limited mentorship, and a gap between academic theory and real-world careers. This personal struggle wasn't a dead end; it became his mission. He founded PsyEgypt to build the very resource he wished he'd had.",
-            mission: "As an APA Campus Ambassador, Marco is dedicated to bridging the gap between international resources and local students. His mission is to use technology to democratize career knowledge, making the route into psychology clearer, more accessible, and less intimidating for the next generation of leaders in Egypt.",
+            mission: "Marco is dedicated to bridging the gap between international resources and local students. His mission is to use technology to democratize career knowledge, making the route into psychology clearer, more accessible, and less intimidating for the next generation of leaders in Egypt.",
             quote: "I built this tool to be the supportive guide I never had. My vision is to use technology to bridge the gap between academic knowledge and real-world opportunity, empowering you to forge your own unique career with confidence."
         }
     },
@@ -404,8 +406,8 @@ Our mission is to empower you with clarity and confidence, bridging the gap betw
 *   **Action Step:** Pick a mobile app you use daily. For 15 minutes, actively try to notice things that are confusing or frustrating. Write down three specific suggestions for improvement. This trains your UX observation skills.`
     },
 
-    whatsNewTitle: "✨ Join APA for Free!",
-    whatsNewContent: "This week, we're highlighting a special offer from our partners at the APA! As a referred member, you’re invited to take advantage of an exclusive opportunity to [join APA—for free](https://click.info.apa.org/?qs=280a7ec07bbe607469afc6752b3eaa283615a5f3e15695b4778926d2a7822aa6e64bc3c073813a4ccd1dc51a23b96deee8b44eb3911c049e)! *Offer valid for first-time APA members only.*",
+    whatsNewTitle: "✨ Membership Resources",
+    whatsNewContent: "This week, we're highlighting a special offer! As a referred member, you’re invited to take advantage of an exclusive opportunity to [join APA—for free](https://click.info.apa.org/?qs=280a7ec07bbe607469afc6752b3eaa283615a5f3e15695b4778926d2a7822aa6e64bc3c073813a4ccd1dc51a23b96deee8b44eb3911c049e)! *Offer valid for first-time APA members only.*",
     
     helpfulPrompt: "What's next?",
 
@@ -556,9 +558,9 @@ These are all detailed in the APA's guide on [Transferable Skills (PDF)](https:/
     yes: '👍 Yes',
     no: '👎 No',
     pollQuestion: "After our chat, how much clearer do you feel about your career path in psychology?\n\n(1 = Not Clear at all, 5 = Very Clear)",
-    pollThanks: "Thank you for your feedback! Your input is valuable for the APA's mission.",
+    pollThanks: "Thank you for your feedback! Your input is valuable.",
     quizProgressText: "Question {current} of {total}",
-    feedbackThanks: "Thank you for your feedback! To help us improve and support the APA's mission, could you answer one quick question?",
+    feedbackThanks: "Thank you for your feedback! To help us improve, could you answer one quick question?",
     challengeTitle: "Weekly Pathfinder Challenge",
     challengeText: "Spend 15 minutes researching one Egyptian professional on LinkedIn who has the career you want. Send them a polite, professional connection request. This is the first step to building your network!",
     
