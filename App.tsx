@@ -1,5 +1,4 @@
 
-
 import React, { useState, useCallback, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useChatManager } from './hooks';
@@ -26,6 +25,7 @@ const App = () => {
     isSoundEnabled,
     handleToggleAudio,
     setIsSoundEnabled,
+    hakeemState
   } = useChatManager(currentContent);
 
   useEffect(() => {

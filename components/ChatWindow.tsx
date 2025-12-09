@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { BotIcon, UserIcon, SpeakerIcon, PlayIcon, PauseIcon, ExternalLinkIcon, CopyIcon, CheckIcon, ThinkingIcon } from './icons';
 import ChoiceButton from './ChoiceButton';
@@ -123,7 +124,7 @@ export const ChatWindow = ({
   audioPlayback,
   isAudioLoading,
   isSoundEnabled,
-  quizProgressText,
+  quizProgressText
 }) => {
   const messagesEndRef = useRef(null);
 
@@ -165,6 +166,7 @@ export const ChatWindow = ({
           </div>
         </div>
       )}
+      
       <div ref={messagesEndRef} />
     </div>
   );

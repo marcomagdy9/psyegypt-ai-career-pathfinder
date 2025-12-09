@@ -1,3 +1,4 @@
+
 const content = {
     headerTitle: "Career Pathfinder",
     headerSubtitle: "Psychology Career Guidance",
@@ -16,13 +17,85 @@ How can I help you today?`,
       
     mainMenu: {
       explore_paths: "🗺️ Explore Career Paths",
-      discovery_quiz: "🧩 Exploration Starter",
+      discovery_quiz: "🧩 Standard Career Quiz",
+      hakeem_quiz: "🔮 The Wisdom Compass",
       career_training: "🚀 Career & Skill Training",
       qna_start: "💬 Career Q&A",
       workforce_data: "📊 Workforce Data & Insights",
       team: "🤝 Meet the Team",
       whats_new: "✨ Student Resources",
       about_us: "👥 About Us"
+    },
+
+    hakeemMirror: {
+        intro: "Welcome to **The Wisdom Compass**. Unlike the standard quiz, this assesses your core motivations rather than just your skills. It asks not what you want to do, but *who you are* when challenged.",
+        questions: [
+            {
+                question: "Imagine two futures. In one, you are a famous authority with a prestigious title, but you feel empty inside. In the other, you are an unknown worker improving thousands of lives, but no one knows your name. Which path feels safer to your heart?",
+                answers: [
+                    { text: "The Prestigious Title (Safety in Status)", payload: "hak_motive_status" },
+                    { text: "The Silent Impact (Safety in Purpose)", payload: "hak_motive_impact" }
+                ]
+            },
+            {
+                question: "A friend calls you at 2:00 AM in deep distress. What is your immediate instinct?",
+                answers: [
+                    { text: "I sit, listen, and hold space for their pain.", payload: "hak_energy_healer" },
+                    { text: "I make a plan to fix the problem immediately.", payload: "hak_energy_fixer" },
+                    { text: "I step back to analyze why this is happening.", payload: "hak_energy_thinker" }
+                ]
+            },
+            {
+                question: "You spent 6 months building a passionate project to help others, and it failed completely. No one showed up. How does your internal voice speak?",
+                answers: [
+                    { text: "I feel ashamed. I wasn't good enough.", payload: "hak_resilience_perfectionist" },
+                    { text: "The system is unfair. People didn't understand it.", payload: "hak_resilience_blamer" },
+                    { text: "It's painful, but useful data. I will rebuild better.", payload: "hak_resilience_architect" }
+                ]
+            },
+            {
+                question: "You are broke. You are offered a high-salary job selling a product you don't believe in. What do you do?",
+                answers: [
+                    { text: "Refuse immediately. My integrity is everything.", payload: "hak_reality_idealist" },
+                    { text: "Take it temporarily to fund my true dream.", payload: "hak_reality_pragmatist" },
+                    { text: "Take it. Work is work, and I need safety.", payload: "hak_reality_conformist" }
+                ]
+            }
+        ],
+        results: {
+            status_healer: {
+                title: "The Benevolent Authority",
+                text: "You seek the title of 'Doctor' not just for ego, but because you believe authority helps you heal others. **Your Trap:** You may burn out trying to maintain the image of perfection. **Your Path:** Clinical Psychology or Psychiatry."
+            },
+            status_fixer: {
+                title: "The Executive Leader",
+                text: "You want to lead systems and be recognized for your efficiency. You are not a therapist; you are a leader of well-being. **Your Path:** Industrial-Organizational Psychology or Administration."
+            },
+            status_thinker: {
+                title: "The Distinguished Professor",
+                text: "You seek respect through intellect. You want to be the smartest person in the room. **Your Path:** Academia and High-Level Research."
+            },
+            impact_healer: {
+                title: "The Silent Guardian",
+                text: "You do not care if they know your name, only that they are safe. You have the true heart of a counselor. **Your Path:** Non-Profit work, Trauma Counseling, or Social Work."
+            },
+            impact_fixer: {
+                title: "The System Architect",
+                text: "You see the suffering caused by bad systems and you want to fix the *root*. **Your Path:** Policy Making, Organizational Development, or Advocacy."
+            },
+            impact_thinker: {
+                title: "The Knowledge Pioneer",
+                text: "You save lives by finding the truth. You are the scientist working on the cure while others treat the symptoms. **Your Path:** Neuroscience, Data Science, or UX Research."
+            }
+        },
+        modifiers: {
+            perfectionist: "Warning: You have the vision, but the fear of a Perfectionist. You tie your worth to your success. In psychology, failure is just data. You must learn to fail faster.",
+            blamer: "Observation: You have a 'Blamer' reflex. Focusing on the unfairness of the system will paralyze you. The world is unfair; your job is to navigate it, not just judge it.",
+            architect: "Strength: You have the 'Architect' mindset. You view pain as information. This resilience is the #1 predictor of long-term success in this field.",
+            idealist: "Advice: You are a pure 'Idealist'. This is noble, but dangerous. Without financial safety, you cannot help others effectively. Don't become a martyr for your cause.",
+            pragmatist: "Advice: You have chosen the 'Tentmaker' path (like Paul the Apostle). Using a job to fund your dream is wise, but dangerous. Ensure your money fuels your mission, not your ego.",
+            conformist: "Warning: You are seeking safety above all else. Psychology is a field for risk-takers. If you prioritize comfort over conviction, you may find yourself rich but empty."
+        }
     },
 
     fixedQna: {
@@ -152,7 +225,7 @@ Our mission is to empower you with clarity and confidence, bridging the gap betw
       
     quickNav: {
       main_menu: "Main Menu",
-      discovery_quiz: "Exploration Starter",
+      discovery_quiz: "Standard Career Quiz",
       training: "Training",
     },
 

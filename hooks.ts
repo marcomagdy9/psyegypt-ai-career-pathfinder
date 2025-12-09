@@ -1,6 +1,4 @@
 
-
-
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { generateSpeech } from './services/geminiService';
@@ -122,13 +120,10 @@ const useAudioPlayer = () => {
 };
 
 
-// --- CUSTOM HOOK: useQuiz ---
+// --- CUSTOM HOOK: useQuiz (Standard Career Assessment) ---
 
 /**
- * Manages the state and logic for the career discovery quiz.
- * @param {object} currentContent - The content object for the current language/country.
- * @param {function} addMessage - Callback to add a message to the chat window.
- * @returns An object with quiz state and handlers.
+ * Manages the state and logic for the standard career discovery quiz.
  */
 const useQuiz = (currentContent, addMessage) => {
     const [quizState, setQuizState] = useState({
@@ -150,7 +145,6 @@ const useQuiz = (currentContent, addMessage) => {
         if (!currentContent?.careerDiscoveryQuiz) return;
         setQuizState(prev => ({ ...prev, active: false }));
 
-        // FIX: Add type assertions to ensure values are treated as numbers for sorting.
         const sortedResults = Object.entries(finalAnswers).sort(([, a], [, b]) => (b as number) - (a as number));
         const topCategoryKey = sortedResults[0][0];
         const results = currentContent.careerDiscoveryQuiz.results;
@@ -218,12 +212,110 @@ const useQuiz = (currentContent, addMessage) => {
     return { quizState, setQuizState, startQuiz, handleQuizAnswer };
 };
 
+// --- CUSTOM HOOK: useHakeem (The Deep Mirror) ---
+
+/**
+ * Manages "The Hakeem's Mirror" - a qualitative assessment system.
+ * 4-Step Flow: Motive -> Energy -> Resilience -> Reality.
+ */
+const useHakeem = (currentContent, addMessage) => {
+    const [hakeemState, setHakeemState] = useState({
+        active: false,
+        step: 0, // 0=inactive, 1=Motive, 2=Energy, 3=Resilience, 4=Reality
+        motive: null,    // Q1
+        energy: null,    // Q2
+        resilience: null,// Q3
+        reality: null    // Q4
+    });
+
+    const finishHakeem = useCallback((finalState) => {
+        setHakeemState({ ...finalState, active: false, step: 0 });
+        
+        const { motive, energy, resilience, reality } = finalState;
+        const resultsContent = currentContent.hakeemMirror.results;
+        const modifiersContent = currentContent.hakeemMirror.modifiers;
+
+        // 1. Base Profile
+        const baseKey = `${motive}_${energy}`;
+        const baseResult = resultsContent[baseKey] || { title: "The Seeker", text: "Your path is unique." };
+        
+        let finalOutput = `### ${baseResult.title}\n\n${baseResult.text}\n\n`;
+
+        // 2. Wisdom Modifiers
+        if (modifiersContent) {
+            if (resilience && modifiersContent[resilience]) {
+                finalOutput += `> **Wisdom on Failure:** ${modifiersContent[resilience]}\n\n`;
+            }
+            if (reality && modifiersContent[reality]) {
+                finalOutput += `> **Wisdom on Money:** ${modifiersContent[reality]}\n\n`;
+            }
+        }
+
+        addMessage(finalOutput, 'ai', [
+            { text: currentContent.mainMenu.explore_paths, payload: "explore_paths" },
+            { text: currentContent.quickNav.main_menu, payload: "main_menu" }
+        ]);
+
+    }, [currentContent, addMessage, setHakeemState]);
+
+    const startHakeem = useCallback(() => {
+        if (!currentContent?.hakeemMirror) return;
+        setHakeemState({ 
+            active: true, 
+            step: 1, 
+            motive: null, energy: null, resilience: null, reality: null
+        });
+        
+        const { intro, questions } = currentContent.hakeemMirror;
+        const q1 = questions[0];
+        
+        addMessage(intro, 'ai');
+        setTimeout(() => {
+            addMessage(q1.question, 'ai', q1.answers);
+        }, 800);
+    }, [currentContent, addMessage]);
+
+    const handleHakeemAnswer = useCallback((payload) => {
+        if (!hakeemState.active || !currentContent?.hakeemMirror) return;
+        
+        const { step } = hakeemState;
+        
+        const parts = payload ? payload.split('_') : [];
+        const type = parts[1]; // motive, energy, resilience, reality
+        const value = parts[2]; 
+        
+        const newState = {
+            ...hakeemState,
+            [type]: value
+        };
+
+        if (step < 4) {
+            const nextStep = step + 1;
+            const nextQ = currentContent?.hakeemMirror?.questions[nextStep - 1];
+
+            // Safety check: if question doesn't exist (e.g. old content file), finish early
+            if (!nextQ) {
+                finishHakeem(newState);
+            } else {
+                setHakeemState({ ...newState, step: nextStep });
+                addMessage(nextQ.question, 'ai', nextQ.answers);
+            }
+        } else {
+            // Finish
+            finishHakeem(newState);
+        }
+
+    }, [hakeemState, currentContent, addMessage, finishHakeem]);
+
+    return { hakeemState, setHakeemState, startHakeem, handleHakeemAnswer };
+}
+
 
 // --- CUSTOM HOOK: useChatManager ---
 
 /**
  * The main hook to manage the entire chat application's state and logic.
- * It orchestrates the conversation flow, quiz, and audio playback.
+ * It orchestrates the conversation flow, quiz, Hakeem, and audio playback.
  * @param {object} currentContent The content object for the selected language/country.
  * @returns An object with all the state and handlers needed by the UI.
  */
@@ -252,14 +344,19 @@ export const useChatManager = (currentContent) => {
 
   const { isSoundEnabled, setIsSoundEnabled, audioPlayback, isAudioLoading, handleToggleAudio, stopAudioPlayback } = useAudioPlayer();
   const { quizState, setQuizState, startQuiz, handleQuizAnswer } = useQuiz(currentContent, addMessage);
+  const { hakeemState, setHakeemState, startHakeem, handleHakeemAnswer } = useHakeem(currentContent, addMessage);
 
   const startOver = useCallback(() => {
     setMessages([]);
     setQuizState({ active: false, currentQuestion: 0, answers: {}, educationLevel: null });
+    setHakeemState({ 
+        active: false, step: 0, 
+        motive: null, energy: null, resilience: null, reality: null
+    });
     stopAudioPlayback();
-  }, [stopAudioPlayback, setQuizState]);
+  }, [stopAudioPlayback, setQuizState, setHakeemState]);
 
-  const conversationMap = (content, startQuizFn) => {
+  const conversationMap = (content, startQuizFn, startHakeemFn) => {
     if (!content) return {};
     const nav = (payload) => [{ text: content.navigation[payload], payload }];
     
@@ -276,6 +373,7 @@ export const useChatManager = (currentContent) => {
         'main_menu': showMainMenu,
         'explore_paths': showExplorePaths,
         'discovery_quiz': startQuizFn,
+        'hakeem_quiz': startHakeemFn, // New Hakeem Entry
         'career_training': () => addMessage(content.careerTraining.prompt, 'ai', Object.entries(content.careerTraining.menu).map(([key, value]) => ({ text: value, payload: `training_${key}` }))),
         'career_insights': showCareerInsights,
         'workforce_data': showWorkforceData,
@@ -367,14 +465,24 @@ export const useChatManager = (currentContent) => {
   };
 
   const handleChoice = useCallback((payload) => {
+    // Only add the user choice message if we are NOT in the middle of a Hakeem reflection flow
+    // or if the choice isn't part of Hakeem. But Hakeem choices are handled specifically.
+    // We add the text here for standard UX.
     addMessage(findChoiceText(payload), 'user');
 
+    // Priority Check: Is Hakeem active?
+    if (hakeemState.active) {
+        handleHakeemAnswer(payload);
+        return;
+    }
+
+    // Priority Check: Is Standard Quiz active?
     if (quizState.active) {
         handleQuizAnswer(payload);
         return;
     }
 
-    const map = conversationMap(contentRef.current, startQuiz);
+    const map = conversationMap(contentRef.current, startQuiz, startHakeem);
     const action = map[payload];
 
     if (action) {
@@ -382,7 +490,7 @@ export const useChatManager = (currentContent) => {
     } else {
       addMessage("I'm sorry, I don't understand that choice.", 'ai');
     }
-  }, [quizState.active, handleQuizAnswer, startQuiz]);
+  }, [quizState.active, handleQuizAnswer, startQuiz, hakeemState.active, handleHakeemAnswer, startHakeem]);
 
   const findChoiceText = (payload) => {
     const lastMessage = messages[messages.length - 1];
@@ -409,5 +517,6 @@ export const useChatManager = (currentContent) => {
     isSoundEnabled,
     handleToggleAudio,
     setIsSoundEnabled,
+    hakeemState
   };
 };
