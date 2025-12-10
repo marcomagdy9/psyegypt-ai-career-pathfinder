@@ -325,6 +325,17 @@ const useHakeem = (currentContent, addMessage) => {
 
 // --- CUSTOM HOOK: useControlRoomAI (Infinite Strategy Mode) ---
 
+const ALL_SPECIALTIES: SpecialtyId[] = ['SPORTS', 'FORENSIC', 'CONSUMER', 'SCHOOL', 'MILITARY', 'COUNSELING', 'IO'];
+
+const shuffleArray = <T>(array: T[]): T[] => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+};
+
 const useControlRoomAI = (region, language) => {
     const [gameState, setGameState] = useState({
         active: false,
@@ -332,22 +343,52 @@ const useControlRoomAI = (region, language) => {
         currentMission: null,
         score: 0,
         streak: 0,
-        feedback: null
+        feedback: null,
+        missionQueue: [] as SpecialtyId[]
     });
 
     const initGame = useCallback(async () => {
-        setGameState(prev => ({ ...prev, active: true, loading: true, feedback: null, score: 0, streak: 0 }));
+        // Shuffle the deck and draw the first mission
+        const deck = shuffleArray(ALL_SPECIALTIES);
+        const targetId = deck.pop();
+
+        setGameState(prev => ({ 
+            ...prev, 
+            active: true, 
+            loading: true, 
+            feedback: null, 
+            score: 0, 
+            streak: 0,
+            missionQueue: deck
+        }));
+        
         playGameSound('radar');
-        const mission = await fetchCrisisScenario(region, language);
+        const mission = await fetchCrisisScenario(region, language, targetId);
         setGameState(prev => ({ ...prev, loading: false, currentMission: mission }));
     }, [region, language]);
 
     const nextMission = useCallback(async () => {
-        setGameState(prev => ({ ...prev, loading: true, feedback: null }));
+        // Draw the next mission from the queue
+        let currentQueue = [...gameState.missionQueue];
+        
+        // Refill and reshuffle if empty
+        if (currentQueue.length === 0) {
+            currentQueue = shuffleArray(ALL_SPECIALTIES);
+        }
+        
+        const targetId = currentQueue.pop();
+
+        setGameState(prev => ({ 
+            ...prev, 
+            loading: true, 
+            feedback: null,
+            missionQueue: currentQueue 
+        }));
+        
         playGameSound('radar');
-        const mission = await fetchCrisisScenario(region, language);
+        const mission = await fetchCrisisScenario(region, language, targetId);
         setGameState(prev => ({ ...prev, loading: false, currentMission: mission }));
-    }, [region, language]);
+    }, [region, language, gameState.missionQueue]);
 
     const deploySpecialist = useCallback((userChoiceId: SpecialtyId) => {
         if (!gameState.currentMission) return;

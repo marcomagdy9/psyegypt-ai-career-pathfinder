@@ -26,8 +26,9 @@ const getAiClient = () => {
 /**
  * Fetches a new crisis scenario from the AI Game Master.
  * Context-aware for Region (Egypt/USA) and Language (AR/EN).
+ * @param targetId Optional SpecialtyId to force the AI to generate a scenario for a specific specialty (used for deck cycling).
  */
-export const fetchCrisisScenario = async (region: 'usa' | 'egypt' = 'usa', language: 'en' | 'ar' = 'en') => {
+export const fetchCrisisScenario = async (region: 'usa' | 'egypt' = 'usa', language: 'en' | 'ar' = 'en', targetId?: SpecialtyId) => {
     const client = getAiClient();
     
     const contextInstruction = region === 'egypt' 
@@ -37,6 +38,11 @@ export const fetchCrisisScenario = async (region: 'usa' | 'egypt' = 'usa', langu
     const languageInstruction = language === 'ar'
         ? "OUTPUT LANGUAGE: The 'alert_text', 'target_specialty', and 'correct_reasoning' MUST be in professional Modern Standard Arabic (Fusha)."
         : "OUTPUT LANGUAGE: English.";
+
+    // Logic to enforce the shuffled deck
+    const targetInstruction = targetId 
+        ? `MANDATORY INSTRUCTION: You MUST generate a crisis scenario specifically for the Specialty ID: "${targetId}". Do not select randomly. The 'target_id' in JSON MUST be "${targetId}". Use the definition provided in GROUND TRUTH.`
+        : "INSTRUCTION: Select ONE specialty ID from the list below randomly.";
 
     // SAFETY PROTOCOL & PERSONA
     const systemPrompt = `
@@ -50,8 +56,10 @@ export const fetchCrisisScenario = async (region: 'usa' | 'egypt' = 'usa', langu
        - Instead of "Intelligence/Police", use "Security Sector" or "Forensic Units".
        - Focus strictly on the *psychological* aspect (PTSD, resilience, selection, rehabilitation), not operational/combat details.
     
-    GOAL: Select ONE specialty ID from the list below. Generate a high-stakes 'Crisis Alert'.
+    GOAL: ${targetId ? `Generate a high-stakes 'Crisis Alert' specifically for target_id: ${targetId}` : "Select ONE specialty ID randomly and generate a 'Crisis Alert'."}
     
+    ${targetInstruction}
+
     GROUND TRUTH:
     ${SPECIALTY_DEFINITIONS}
 

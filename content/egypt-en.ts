@@ -1,6 +1,5 @@
 
 
-
 const content = {
     headerTitle: "PsyEgypt Career Pathfinder",
     headerSubtitle: "Psychology Career Guidance",
@@ -21,6 +20,7 @@ How can I help you today?`,
       explore_paths: "🗺️ Explore Career Paths",
       discovery_quiz: "🧩 Standard Career Quiz",
       hakeem_quiz: "🔮 The Hakeem's Mirror",
+      control_room_start: "🎮 The Control Room (Game)",
       career_training: "🚀 Career & Skill Training",
       career_insights: "📊 Career Insights & Data",
       qna_start: "💬 Q&A",
@@ -486,7 +486,7 @@ Our mission is to empower you with clarity and confidence, bridging the gap betw
     
     helpfulPrompt: "What's next?",
 
-    // Explore Path
+    // Explore Path - Using English for extensive text to ensure accuracy if not translated in prompt
     exploreSubMenuPrompt: "Great! Let's look at the different directions your psychology degree can take you. The most common path, taken by the majority of graduates, is exploring careers available with a Bachelor's degree. There are also more specialized roles that require advanced graduate studies. Which path would you like to explore first?",
     exploreSubMenu: {
       bachelors: "Careers with a Bachelor's Degree (Most Common Path)",
@@ -515,7 +515,7 @@ Our mission is to empower you with clarity and confidence, bridging the gap betw
 *   Collaborating with doctors, social workers, and other professionals.
 
 **Required Education:**
-The journey starts with a Bachelor's degree in Psychology. In Egypt, a Master's degree is the minimum requirement to practice, often followed by specialized diplomas. For full licensure as a 'Psychologist' and more autonomy, a PhD or PsyD is typically necessary. To learn more about specialties, explore [APA Division 12 (Society of Clinical Psychology)](https://www.div12.org/).
+The journey starts with a Bachelor's degree. In Egypt, a Master's degree is the minimum requirement to practice, often followed by specialized diplomas. For full licensure as a 'Psychologist' and more autonomy, a PhD or PsyD is typically necessary. To learn more about specialties, explore [APA Division 12 (Society of Clinical Psychology)](https://www.div12.org/).
 
 **Potential Work Environments:**
 You could find yourself working in diverse settings such as hospitals, private clinics, community mental health centers, schools, rehabilitation facilities, or even corporate wellness programs.`,
@@ -605,7 +605,6 @@ The primary work environment is a university or college. Researchers can also wo
       pathOverview: "Detailed Overview",
       coreSkills: "Key Transferable Skills"
     },
-    // FIX: Replaced truncated template literal with full content.
     bachelorsPathOverview: `This is the most common path, taken by the vast majority of psychology graduates—around 90% according to [APA workforce studies](https://www.apa.org/workforce/data-tools/bachelors-workforce). It's a common misconception that a graduate degree is required for a successful career, but the skills you learn in your Bachelor's program are highly sought after across many industries.
 
 **Key Insight:** You are not just learning about psychology; you are learning how to understand people, analyze data, communicate complex ideas, and solve problems—skills every employer wants.
