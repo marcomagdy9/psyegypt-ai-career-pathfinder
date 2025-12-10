@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useChatManager } from './hooks';
@@ -25,8 +24,13 @@ const App = () => {
     isSoundEnabled,
     handleToggleAudio,
     setIsSoundEnabled,
-    hakeemState
-  } = useChatManager(currentContent);
+    hakeemState,
+    controlRoomState,
+    deploySpecialist,
+    nextMission,
+    retryMission, // New export
+    exitGame
+  } = useChatManager(currentContent, country, language);
 
   useEffect(() => {
     if (country && language) {
@@ -55,7 +59,6 @@ const App = () => {
     : null;
 
   // Configuration for footer navigation buttons.
-  // This makes the footer easier to manage and update.
   const footerButtons = [
     { id: 'main_menu', icon: <HomeIcon />, payload: 'main_menu', visible: true },
     { id: 'explore_paths', icon: <ExploreIcon />, payload: 'explore_paths', visible: true },
@@ -149,6 +152,11 @@ const App = () => {
         isAudioLoading={isAudioLoading}
         isSoundEnabled={isSoundEnabled}
         quizProgressText={quizProgressText}
+        controlRoomState={controlRoomState}
+        onDeploy={deploySpecialist}
+        onNextMission={nextMission}
+        onExitGame={exitGame}
+        retryMission={retryMission} // Pass down new prop
       />
       
       <footer className="p-3 bg-ai-bubble/80 backdrop-blur-sm border-t border-white/10">

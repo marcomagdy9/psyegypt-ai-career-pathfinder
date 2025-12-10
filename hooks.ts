@@ -1,15 +1,11 @@
-
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { generateSpeech } from './services/geminiService';
+import { fetchCrisisScenario } from './services/gameMasterService';
+import { SpecialtyId } from './types';
 
 // --- AUDIO UTILITIES ---
 
-/**
- * Decodes a base64 encoded string into a Uint8Array for the Web Audio API.
- * @param {string} base64 The base64 encoded audio string.
- * @returns {Uint8Array} The decoded audio data.
- */
 function decode(base64) {
   const binaryString = atob(base64);
   const len = binaryString.length;
@@ -20,14 +16,6 @@ function decode(base64) {
   return bytes;
 }
 
-/**
- * Converts raw PCM audio data into a playable AudioBuffer.
- * @param {Uint8Array} data The raw audio data.
- * @param {AudioContext} ctx The AudioContext instance.
- * @param {number} sampleRate The sample rate of the audio (e.g., 24000).
- * @param {number} numChannels The number of audio channels (e.g., 1 for mono).
- * @returns {Promise<AudioBuffer>} A promise that resolves with the playable AudioBuffer.
- */
 async function decodeAudioData(data, ctx, sampleRate, numChannels) {
   const dataInt16 = new Int16Array(data.buffer);
   const frameCount = dataInt16.length / numChannels;
@@ -41,15 +29,50 @@ async function decodeAudioData(data, ctx, sampleRate, numChannels) {
   return buffer;
 }
 
+// --- SYNTHESIZED SFX (No Assets Required) ---
+const playGameSound = (type: 'radar' | 'success' | 'fail') => {
+    try {
+        const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        if (type === 'radar') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(800, ctx.currentTime);
+            gain.gain.setValueAtTime(0.05, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.15);
+        } else if (type === 'success') {
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(440, ctx.currentTime); // A4
+            osc.frequency.setValueAtTime(554.37, ctx.currentTime + 0.1); // C#5
+            osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.2); // E5
+            gain.gain.setValueAtTime(0.1, ctx.currentTime);
+            gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.6);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.6);
+        } else if (type === 'fail') {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(150, ctx.currentTime);
+            osc.frequency.linearRampToValueAtTime(100, ctx.currentTime + 0.3);
+            gain.gain.setValueAtTime(0.1, ctx.currentTime);
+            gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.4);
+        }
+    } catch (e) {
+        // Silently fail if audio context not available
+    }
+};
 
 // --- CUSTOM HOOK: useAudioPlayer ---
 
 const TTS_SAMPLE_RATE = 24000;
 
-/**
- * Manages all audio playback functionality for Text-to-Speech.
- * @returns An object with audio player state and controls.
- */
 const useAudioPlayer = () => {
     const [isSoundEnabled, setIsSoundEnabled] = useState(true);
     const audioContextRef = useRef(null);
@@ -59,7 +82,7 @@ const useAudioPlayer = () => {
 
     const stopAudioPlayback = useCallback(() => {
         if (audioSourceRef.current) {
-            audioSourceRef.current.onended = null; // Prevent onended from firing on manual stop
+            audioSourceRef.current.onended = null; 
             audioSourceRef.current.stop();
             audioSourceRef.current.disconnect();
             audioSourceRef.current = null;
@@ -72,14 +95,13 @@ const useAudioPlayer = () => {
 
         if (audioPlayback.messageId === messageId && audioPlayback.status === 'playing') {
             stopAudioPlayback();
-            setAudioPlayback({ messageId, status: 'paused' }); // Keep icon as paused
+            setAudioPlayback({ messageId, status: 'paused' }); 
             return;
         }
 
         stopAudioPlayback();
 
         if (!audioContextRef.current) {
-            // FIX: Use type assertion to handle vendor-prefixed webkitAudioContext for older browsers.
             const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
             audioContextRef.current = new AudioContext({ sampleRate: TTS_SAMPLE_RATE });
         }
@@ -122,9 +144,6 @@ const useAudioPlayer = () => {
 
 // --- CUSTOM HOOK: useQuiz (Standard Career Assessment) ---
 
-/**
- * Manages the state and logic for the standard career discovery quiz.
- */
 const useQuiz = (currentContent, addMessage) => {
     const [quizState, setQuizState] = useState({
         active: false,
@@ -214,18 +233,14 @@ const useQuiz = (currentContent, addMessage) => {
 
 // --- CUSTOM HOOK: useHakeem (The Deep Mirror) ---
 
-/**
- * Manages "The Hakeem's Mirror" - a qualitative assessment system.
- * 4-Step Flow: Motive -> Energy -> Resilience -> Reality.
- */
 const useHakeem = (currentContent, addMessage) => {
     const [hakeemState, setHakeemState] = useState({
         active: false,
-        step: 0, // 0=inactive, 1=Motive, 2=Energy, 3=Resilience, 4=Reality
-        motive: null,    // Q1
-        energy: null,    // Q2
-        resilience: null,// Q3
-        reality: null    // Q4
+        step: 0, 
+        motive: null,    
+        energy: null,    
+        resilience: null,
+        reality: null    
     });
 
     const finishHakeem = useCallback((finalState) => {
@@ -281,7 +296,7 @@ const useHakeem = (currentContent, addMessage) => {
         const { step } = hakeemState;
         
         const parts = payload ? payload.split('_') : [];
-        const type = parts[1]; // motive, energy, resilience, reality
+        const type = parts[1]; 
         const value = parts[2]; 
         
         const newState = {
@@ -293,7 +308,6 @@ const useHakeem = (currentContent, addMessage) => {
             const nextStep = step + 1;
             const nextQ = currentContent?.hakeemMirror?.questions[nextStep - 1];
 
-            // Safety check: if question doesn't exist (e.g. old content file), finish early
             if (!nextQ) {
                 finishHakeem(newState);
             } else {
@@ -301,7 +315,6 @@ const useHakeem = (currentContent, addMessage) => {
                 addMessage(nextQ.question, 'ai', nextQ.answers);
             }
         } else {
-            // Finish
             finishHakeem(newState);
         }
 
@@ -310,16 +323,90 @@ const useHakeem = (currentContent, addMessage) => {
     return { hakeemState, setHakeemState, startHakeem, handleHakeemAnswer };
 }
 
+// --- CUSTOM HOOK: useControlRoomAI (Infinite Strategy Mode) ---
+
+const useControlRoomAI = (region, language) => {
+    const [gameState, setGameState] = useState({
+        active: false,
+        loading: false,
+        currentMission: null,
+        score: 0,
+        streak: 0,
+        feedback: null
+    });
+
+    const initGame = useCallback(async () => {
+        setGameState(prev => ({ ...prev, active: true, loading: true, feedback: null, score: 0, streak: 0 }));
+        playGameSound('radar');
+        const mission = await fetchCrisisScenario(region, language);
+        setGameState(prev => ({ ...prev, loading: false, currentMission: mission }));
+    }, [region, language]);
+
+    const nextMission = useCallback(async () => {
+        setGameState(prev => ({ ...prev, loading: true, feedback: null }));
+        playGameSound('radar');
+        const mission = await fetchCrisisScenario(region, language);
+        setGameState(prev => ({ ...prev, loading: false, currentMission: mission }));
+    }, [region, language]);
+
+    const deploySpecialist = useCallback((userChoiceId: SpecialtyId) => {
+        if (!gameState.currentMission) return;
+        
+        const isCorrect = userChoiceId === gameState.currentMission.target_id;
+
+        if (isCorrect) {
+            // SUCCESS LOGIC: Trigger Dossier overlay, do NOT auto-fetch next.
+            playGameSound('success');
+            setGameState(prev => ({
+                ...prev,
+                score: prev.score + 100 + (prev.streak * 10),
+                streak: prev.streak + 1,
+                feedback: {
+                    status: 'success',
+                    text: `SUCCESS! ${gameState.currentMission.correct_reasoning}`,
+                    learnMoreKey: gameState.currentMission.learn_more_key || 'explore_paths'
+                }
+            }));
+        } else {
+            // FAILURE LOGIC (MASTERY LOOP): Penalize Score & Streak. Allow Retry.
+            playGameSound('fail');
+            setGameState(prev => ({
+                ...prev,
+                score: Math.max(0, prev.score - 50), // Penalty
+                streak: 0, // Reset Streak
+                // Keep currentMission active so they can try again
+                feedback: {
+                    status: 'failure',
+                    text: language === 'ar' 
+                        ? `نشر غير صحيح. حاول مرة أخرى. ركز على تكتيكات المهمة.`
+                        : `INCORRECT DEPLOYMENT. Tactical mismatch. Analyze intelligence and RETRY.`
+                }
+            }));
+        }
+    }, [gameState.currentMission, language]);
+
+    // Retry Mission: Clear feedback so user can interact with the deck again.
+    const retryMission = useCallback(() => {
+        setGameState(prev => ({ ...prev, feedback: null }));
+    }, []);
+
+    const exitGame = useCallback(() => {
+        setGameState(prev => ({ ...prev, active: false, currentMission: null }));
+    }, []);
+
+    return { gameState, initGame, deploySpecialist, nextMission, retryMission, exitGame };
+};
+
 
 // --- CUSTOM HOOK: useChatManager ---
 
 /**
  * The main hook to manage the entire chat application's state and logic.
- * It orchestrates the conversation flow, quiz, Hakeem, and audio playback.
  * @param {object} currentContent The content object for the selected language/country.
- * @returns An object with all the state and handlers needed by the UI.
+ * @param {string} country 'usa' or 'egypt'
+ * @param {string} language 'en' or 'ar'
  */
-export const useChatManager = (currentContent) => {
+export const useChatManager = (currentContent, country, language) => {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const contentRef = useRef(currentContent);
@@ -345,6 +432,9 @@ export const useChatManager = (currentContent) => {
   const { isSoundEnabled, setIsSoundEnabled, audioPlayback, isAudioLoading, handleToggleAudio, stopAudioPlayback } = useAudioPlayer();
   const { quizState, setQuizState, startQuiz, handleQuizAnswer } = useQuiz(currentContent, addMessage);
   const { hakeemState, setHakeemState, startHakeem, handleHakeemAnswer } = useHakeem(currentContent, addMessage);
+  
+  // Pass region/language to game logic
+  const { gameState: controlRoomState, initGame, deploySpecialist, nextMission, retryMission, exitGame } = useControlRoomAI(country, language);
 
   const startOver = useCallback(() => {
     setMessages([]);
@@ -353,14 +443,15 @@ export const useChatManager = (currentContent) => {
         active: false, step: 0, 
         motive: null, energy: null, resilience: null, reality: null
     });
+    exitGame();
     stopAudioPlayback();
-  }, [stopAudioPlayback, setQuizState, setHakeemState]);
+  }, [stopAudioPlayback, setQuizState, setHakeemState, exitGame]);
 
-  const conversationMap = (content, startQuizFn, startHakeemFn) => {
+  const conversationMap = (content, startQuizFn, startHakeemFn, startControlRoomFn) => {
     if (!content) return {};
     const nav = (payload) => [{ text: content.navigation[payload], payload }];
     
-    // --- Navigation Helper Functions for DRY principle ---
+    // --- Navigation Helper Functions ---
     const showMainMenu = () => addMessage(content.placeholders.menu, 'ai', Object.entries(content.mainMenu).map(([key, value]) => ({ text: value, payload: key })));
     const showExplorePaths = () => addMessage(content.exploreSubMenuPrompt, 'ai', Object.entries(content.exploreSubMenu).map(([key, value]) => ({ text: value, payload: `explore_${key}` })));
     const showClinicalMenu = () => addMessage(content.clinicalHookPrompt, 'ai', Object.entries(content.clinicalSubMenu).map(([key, value]) => ({ text: value, payload: `clinical_${key}` })));
@@ -373,7 +464,8 @@ export const useChatManager = (currentContent) => {
         'main_menu': showMainMenu,
         'explore_paths': showExplorePaths,
         'discovery_quiz': startQuizFn,
-        'hakeem_quiz': startHakeemFn, // New Hakeem Entry
+        'hakeem_quiz': startHakeemFn,
+        'control_room_start': startControlRoomFn, // NEW: Control Room Entry
         'career_training': () => addMessage(content.careerTraining.prompt, 'ai', Object.entries(content.careerTraining.menu).map(([key, value]) => ({ text: value, payload: `training_${key}` }))),
         'career_insights': showCareerInsights,
         'workforce_data': showWorkforceData,
@@ -465,6 +557,35 @@ export const useChatManager = (currentContent) => {
   };
 
   const handleChoice = useCallback((payload) => {
+    // Priority: Control Room Exit
+    if (payload === 'exit_game') {
+        exitGame();
+        return;
+    }
+
+    // New: Career Bridge from Game to Content
+    if (payload.startsWith('bridge_')) {
+        exitGame(); // Close game first
+        const bridgeKey = payload.replace('bridge_', '');
+        
+        // Wait a tick for state to update then route
+        setTimeout(() => {
+            const map = conversationMap(contentRef.current, startQuiz, startHakeem, initGame);
+            // Fallback to main explore if key doesn't exist
+            const action = map[bridgeKey] || map['explore_paths'];
+            if (action) {
+                addMessage("Navigating to Career Database...", 'user'); // Simulated user action
+                action();
+            }
+        }, 100);
+        return;
+    }
+
+    // Priority: Control Room Active
+    if (controlRoomState.active) {
+        return;
+    }
+
     // Only add the user choice message if we are NOT in the middle of a Hakeem reflection flow
     // or if the choice isn't part of Hakeem. But Hakeem choices are handled specifically.
     // We add the text here for standard UX.
@@ -482,7 +603,7 @@ export const useChatManager = (currentContent) => {
         return;
     }
 
-    const map = conversationMap(contentRef.current, startQuiz, startHakeem);
+    const map = conversationMap(contentRef.current, startQuiz, startHakeem, initGame);
     const action = map[payload];
 
     if (action) {
@@ -490,7 +611,7 @@ export const useChatManager = (currentContent) => {
     } else {
       addMessage("I'm sorry, I don't understand that choice.", 'ai');
     }
-  }, [quizState.active, handleQuizAnswer, startQuiz, hakeemState.active, handleHakeemAnswer, startHakeem]);
+  }, [quizState.active, handleQuizAnswer, startQuiz, hakeemState.active, handleHakeemAnswer, startHakeem, controlRoomState.active, initGame, exitGame]);
 
   const findChoiceText = (payload) => {
     const lastMessage = messages[messages.length - 1];
@@ -517,6 +638,11 @@ export const useChatManager = (currentContent) => {
     isSoundEnabled,
     handleToggleAudio,
     setIsSoundEnabled,
-    hakeemState
+    hakeemState,
+    controlRoomState,
+    deploySpecialist,
+    nextMission,
+    retryMission,
+    exitGame
   };
 };
