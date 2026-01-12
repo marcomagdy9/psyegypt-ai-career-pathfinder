@@ -388,48 +388,71 @@ const useControlRoomAI = (region, language) => {
     });
 
     const initGame = useCallback(async () => {
-        // Shuffle the deck and draw the first mission
-        const deck = shuffleArray(ALL_SPECIALTIES);
-        const targetId = deck.pop();
+        // Safe Loading Wrapper: Ensure we don't get stuck in loading state
+        try {
+            const deck = shuffleArray(ALL_SPECIALTIES);
+            const targetId = deck.pop();
 
-        setGameState(prev => ({ 
-            ...prev, 
-            active: true, 
-            loading: true, 
-            feedback: null, 
-            score: 0, 
-            streak: 0,
-            missionQueue: deck,
-            isScarcityMode: false
-        }));
-        
-        playGameSound('radar');
-        const mission = await fetchCrisisScenario(region, language, targetId, false);
-        setGameState(prev => ({ ...prev, loading: false, currentMission: mission }));
+            setGameState(prev => ({ 
+                ...prev, 
+                active: true, 
+                loading: true, 
+                feedback: null, 
+                score: 0, 
+                streak: 0,
+                missionQueue: deck,
+                isScarcityMode: false
+            }));
+            
+            playGameSound('radar');
+            const mission = await fetchCrisisScenario(region, language, targetId, false);
+            
+            // Only update if we successfully got data
+            setGameState(prev => ({ ...prev, loading: false, currentMission: mission }));
+        } catch (error) {
+            console.error("Critical Game Init Error:", error);
+            // Emergency exit from loading state
+            setGameState(prev => ({ 
+                ...prev, 
+                active: false, 
+                loading: false,
+                feedback: { status: 'failure', text: 'Connection Lost. Mission Aborted.' } 
+            }));
+        }
     }, [region, language]);
 
     const nextMission = useCallback(async () => {
-        // Draw the next mission from the queue
-        let currentQueue = [...gameState.missionQueue];
-        
-        // Refill and reshuffle if empty
-        if (currentQueue.length === 0) {
-            currentQueue = shuffleArray(ALL_SPECIALTIES);
-        }
-        
-        const targetId = currentQueue.pop();
+        try {
+            // Draw the next mission from the queue
+            let currentQueue = [...gameState.missionQueue];
+            
+            // Refill and reshuffle if empty
+            if (currentQueue.length === 0) {
+                currentQueue = shuffleArray(ALL_SPECIALTIES);
+            }
+            
+            const targetId = currentQueue.pop();
 
-        setGameState(prev => ({ 
-            ...prev, 
-            loading: true, 
-            feedback: null,
-            missionQueue: currentQueue 
-        }));
-        
-        playGameSound('radar');
-        // Pass current scarcity mode to the fetch function
-        const mission = await fetchCrisisScenario(region, language, targetId, gameState.isScarcityMode);
-        setGameState(prev => ({ ...prev, loading: false, currentMission: mission }));
+            setGameState(prev => ({ 
+                ...prev, 
+                loading: true, 
+                feedback: null,
+                missionQueue: currentQueue 
+            }));
+            
+            playGameSound('radar');
+            // Pass current scarcity mode to the fetch function
+            const mission = await fetchCrisisScenario(region, language, targetId, gameState.isScarcityMode);
+            setGameState(prev => ({ ...prev, loading: false, currentMission: mission }));
+        } catch (error) {
+            console.error("Mission Fetch Error:", error);
+            // Handle error gracefully - keep previous mission but stop loading
+            setGameState(prev => ({ 
+                ...prev, 
+                loading: false,
+                feedback: { status: 'failure', text: 'Signal Interrupted. Retrying Secure Link...' } 
+            }));
+        }
     }, [region, language, gameState.missionQueue, gameState.isScarcityMode]);
 
     const deploySpecialist = useCallback((userChoiceId: SpecialtyId) => {

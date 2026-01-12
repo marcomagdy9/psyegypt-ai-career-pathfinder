@@ -47,7 +47,6 @@ export const fetchCrisisScenario = async (
     targetId?: SpecialtyId,
     isScarcityMode: boolean = false
 ) => {
-    const client = getAiClient();
     
     // SCARCITY & CONTEXT INJECTION
     let contextInstruction = "";
@@ -143,6 +142,9 @@ export const fetchCrisisScenario = async (
     `;
 
     try {
+        // MOVED INSIDE TRY BLOCK: Client initialization
+        const client = getAiClient();
+
         const response = await client.models.generateContent({
             model: "gemini-2.5-flash",
             contents: "Generate a new Hakeem Crisis Scenario.",
@@ -174,6 +176,8 @@ export const fetchCrisisScenario = async (
         return JSON.parse(text);
     } catch (error) {
         console.error("Hakeem Engine Error:", error);
+        
+        // Fallback Logic ensures the game can start even if the API fails
         return {
             id: "fallback-001",
             target_id: "IO",
