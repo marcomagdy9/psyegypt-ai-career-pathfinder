@@ -1,5 +1,4 @@
 
-
 const content = {
     headerTitle: "PsyEgypt Career Pathfinder",
     headerSubtitle: "Psychology Career Guidance",
@@ -31,7 +30,7 @@ How can I help you today?`,
     },
 
     hakeemMirror: {
-        intro: "Welcome to **The Hakeem's Mirror**. Unlike the standard quiz, this does not measure your skills, but your *soul*. It asks not what you want to do, but *who you are* when the world is dark. Are you ready to see your reflection?",
+        intro: "Welcome to **The Hakeem's Mirror**. Unlike the standard quiz, this does not just measure your skills, but reflects on your core motivations. It relies on concepts like **Jada'ana (Community Solidarity)** to understand who you are when challenges arise. Are you ready for this reflection?",
         questions: [
             {
                 question: "Imagine two futures. In one, you are a famous Doctor with a prestigious title, but you feel empty inside. In the other, you are an unknown worker saving 5,000 lives, but no one knows your name. Which path feels safer to your heart?",
@@ -57,7 +56,7 @@ How can I help you today?`,
                 ]
             },
             {
-                question: "You are broke. You are offered a high-salary job selling a product you don't believe in. What do you do?",
+                question: "You are facing financial pressure (The Economy of Toil). You are offered a high-salary job selling a product you don't believe in. What do you do?",
                 answers: [
                     { text: "Refuse immediately. My integrity is everything.", payload: "hak_reality_idealist" },
                     { text: "Take it temporarily to fund my true dream.", payload: "hak_reality_pragmatist" },
@@ -67,37 +66,37 @@ How can I help you today?`,
         ],
         results: {
             status_healer: {
-                title: "The Benevolent Authority",
-                text: "You seek the title of 'Doctor' not just for ego, but because you believe authority helps you heal others. **Your Trap:** You may burn out trying to maintain the image of perfection. **Your Path:** Clinical Psychology or Psychiatry, but remember: the degree does not heal, *you* do."
+                title: "The Benevolent Authority (Al-Hami)",
+                text: "You seek the title of 'Doctor' partly because you believe authority enables you to heal others more effectively. **The Challenge:** Balancing the weight of authority with your own well-being is crucial to avoid burnout. **Your Path:** Clinical Psychology or Psychiatry, remembering that connection heals as much as credentials."
             },
             status_fixer: {
                 title: "The Executive Leader",
-                text: "You want to lead systems and be recognized for your efficiency. You are not a therapist; you are a CEO of well-being. **Your Path:** Industrial-Organizational Psychology or Hospital Administration. You are built to manage power."
+                text: "You naturally lean towards leading systems and valuing efficiency. You may find more fulfillment in managing the 'infrastructure of well-being' rather than providing direct therapy. **Your Path:** Industrial-Organizational Psychology or Hospital Administration; where you can guide large-scale impact."
             },
             status_thinker: {
                 title: "The Distinguished Professor",
-                text: "You seek respect through intellect. You want to be the smartest person in the room. **Your Path:** Academia and High-Level Research. Write the books that others study."
+                text: "You seek respect through intellect and deep understanding. **Your Path:** Academia and High-Level Research. Your greatest contribution may be in formulating the knowledge that others study."
             },
             impact_healer: {
-                title: "The Silent Guardian",
-                text: "You do not care if they know your name, only that they are safe. You have the true heart of a counselor. **Your Path:** NGO work, Trauma Counseling, or Social Work. Beware of 'Compassion Fatigue'—you give too much."
+                title: "The Silent Guardian (Al-Rafiq)",
+                text: "The safety and well-being of others is your priority, even if you work behind the scenes. You possess the true heart of a counselor. **Your Path:** NGO work, Trauma Counseling, or Social Work. Remember, protecting your own energy allows you to keep giving."
             },
             impact_fixer: {
-                title: "The System Architect",
-                text: "You see the suffering caused by bad systems (poverty, bad laws) and you want to fix the *root*. **Your Path:** Policy Making, Organizational Development, or Advocacy. Don't treat the patient; treat the society."
+                title: "The System Architect (Al-Mubtakir)",
+                text: "You notice the suffering caused by systemic flaws (poverty, bad laws) and want to fix the root causes. **Your Path:** Policy Making, Organizational Development, or Advocacy. Your impact may be in treating the society rather than the individual."
             },
             impact_thinker: {
-                title: "The Knowledge Pioneer",
-                text: "You save lives by finding the truth. You are the scientist working on the cure while others treat the symptoms. **Your Path:** Neuroscience, Data Science, or UX Research. Your impact is invisible but infinite."
+                title: "The Knowledge Pioneer (Al-Dalil)",
+                text: "You save lives by finding the truth and evidence. **Your Path:** Neuroscience, Data Science, or UX Research. Your impact might not be immediately visible, but it is infinite and foundational."
             }
         },
         modifiers: {
-            perfectionist: "Warning: You have the vision, but the fear of a Perfectionist. You tie your worth to your success. In psychology, failure is just data. You must learn to fail faster.",
-            blamer: "Observation: You have a 'Blamer' reflex. Focusing on the unfairness of the system will paralyze you. The world is unfair; your job is to navigate it, not just judge it.",
-            architect: "Strength: You have the 'Architect' mindset. You view pain as information. This resilience is the #1 predictor of long-term success in this field.",
-            idealist: "Advice: You are a pure 'Idealist'. This is noble, but dangerous. Without financial safety, you cannot help others effectively. Don't become a martyr for your cause.",
-            pragmatist: "Advice: You have chosen the 'Tentmaker' path (like Paul the Apostle). Using a job to fund your dream is wise, but dangerous. Ensure your money fuels your mission, not your ego.",
-            conformist: "Warning: You are seeking safety above all else. Psychology is a field for risk-takers. If you prioritize comfort over conviction, you may find yourself rich but empty."
+            perfectionist: "Reflection: You have a powerful vision, but perfectionism can sometimes slow you down. Remember that in psychology, setbacks are often just data points. Viewing 'failure' as learning allows you to move forward with less weight.",
+            blamer: "Insight: You have a keen eye for systemic injustice. However, focusing solely on what is wrong can be draining. Your challenge is to navigate the imperfect system so you can change it from within.",
+            architect: "Strength: You have the 'Architect' mindset. You view challenges as information to be analyzed. This resilience is a tremendous asset that will serve you well in this field.",
+            idealist: "Guidance: Your idealism is a noble strength. To sustain this passion long-term, financial stability acts as a foundation, not a distraction. Protecting your own well-being ensures you can keep helping others.",
+            pragmatist: "Guidance: You have chosen a path of practical wisdom. Using a job to support your true ambition is a smart strategy (Bricolage). Just ensure your compass remains set on your true passion.",
+            conformist: "Perspective: Seeking safety is a natural human instinct. However, growth in psychology often happens outside the comfort zone. Consider how you might balance your need for security with work that truly fulfills you."
         }
     },
 
@@ -108,18 +107,18 @@ How can I help you today?`,
           question: "What's the difference between studying at a public vs. private university?",
           payload: "qna_1",
           answer: `This is a fundamental choice that shapes your entire career trajectory.
-*   **Public Universities (e.g., Ain Shams, Cairo):** Are research-focused ('scientist' model), primarily teach in Arabic, and lead to careers in the public sector and traditional academia.
-*   **Private Universities (e.g., AUC, BUE):** Are practitioner-focused ('professional practitioner' model), teach in English, have international accreditation, and funnel graduates into private practice, international NGOs, and multinational corporations. The high cost of tuition also acts as a socioeconomic filter.
+*   **Public Universities (e.g., Ain Shams, Cairo):** Are research-focused ('scientist' model), primarily teach in Arabic, and lead to careers in the public sector. However, graduates often face **Waithood (Social Stagnation)** due to delayed appointments.
+*   **Private Universities (e.g., AUC, BUE):** Are practitioner-focused ('professional practitioner' model), teach in English, and funnel graduates into private practice and multinationals. The high cost acts as a filter, often bypassing the **Economy of Toil (Cycle of Hardship)** faced by public graduates.
 
 **Source:** *Mapping a Profession: A Strategic Blueprint for Data-Insight Guides*`
         },
         {
           question: "Where are the best job opportunities for psychology graduates?",
           payload: "qna_2",
-          answer: `The data shows a clear economic split. While the societal need is in clinical care, the best-paying and highest-demand domestic jobs are in the **"Corporate Siphon"** and the **"Third Pathway"**:
-*   **Corporate Sector:** A senior Industrial-Organizational Psychologist can earn over 50% more than a senior Clinical Psychologist. Roles in HR, Organizational Development, and Talent Management are in high demand.
-*   **Tech & Business Sector:** UX Research and Market Research are the most lucrative fields, with senior roles earning significantly more than clinical counterparts.
-*   **Digital Health Platforms:** The rise of tele-psychology platforms (e.g., O7 Therapy) represents a major new, flexible career path.
+          answer: `The data shows a clear economic split. While the societal need is in clinical care, the best-paying jobs are in the **"Corporate Siphon"** and the **"Third Pathway"**:
+*   **Corporate Sector:** A senior Industrial-Organizational Psychologist can earn over 50% more than a senior Clinical Psychologist.
+*   **Tech & Business Sector:** UX Research and Market Research are lucrative fields where understanding human behavior is valued.
+*   **Digital Health Platforms:** Tele-psychology platforms (e.g., O7 Therapy) offer a flexible path, though they operate in a regulatory gray area to avoid **Fadiha (Digital Scandal)** or privacy breaches.
 
 **Source:** *The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis*`
         },
@@ -127,20 +126,20 @@ How can I help you today?`,
           question: "Can I practice psychotherapy with a psychology degree?",
           payload: "qna_3",
           answer: `This is legally complex and high-risk. The right to practice is **not automatic**.
-*   The title "Psychotherapist" is legally restricted to medical doctors (psychiatrists) unless a non-doctor obtains a specific, separate license from the Ministry of Health.
+*   The title "Psychotherapist" is legally restricted to medical doctors (psychiatrists) unless a non-doctor obtains a specific MOHP license.
 *   Practicing with only a Bachelor's degree is considered a serious "ethical violation."
-*   The new **2025 Medical Liability Law** introduces severe penalties, including imprisonment, for medical errors. Psychologists may be held liable under this law without the institutional protection of the Medical Syndicate, making private practice significantly more perilous.
+*   The new **2025 Medical Liability Law** introduces severe penalties. Psychologists may be held liable under this law without the institutional protection of the Medical Syndicate, making private practice perilous without proper **Wasta (Social Connections)** or legal backing.
 
 **Source:** *The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis*`
         },
         {
           question: "What is the biggest challenge facing psychologists in Egypt?",
           payload: "qna_4",
-          answer: `The central challenge is a paradox: a massive societal need for mental health (a 99.6% treatment gap) is met with systemic dysfunction. This includes:
-*   **Legal Ambiguity:** A developing and confusing regulatory framework.
-*   **Economic Precarity:** Low clinical salaries that don't keep pace with the high cost of living in Cairo.
+          answer: `The central challenge is the **Economy of Toil (Cycle of Hardship)**. A massive societal need for mental health is met with systemic dysfunction:
+*   **Legal Ambiguity:** A developing regulatory framework.
+*   **Economic Precarity:** Low clinical salaries that don't keep pace with inflation.
 *   **Public Sector Collapse:** A "doctors' exodus" and fee hikes have made the public sector an unviable career path.
-*   **Brain Drain:** A 10x-15x salary difference pulls experienced talent to the Gulf countries, worsening the local workforce shortage.
+*   **Brain Drain:** A 10x-15x salary difference pulls talent to the Gulf, worsening local shortages.
 
 **Source:** *The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis*`
         }
@@ -148,7 +147,7 @@ How can I help you today?`,
     },
 
     careerInsights: {
-      prompt: "Welcome to the Career Data & Insights Hub. This entire section is based on a critical analysis of the Egyptian psychology profession for 2025-2026, revealing a field in rapid transition. What would you like to explore?",
+      prompt: "Welcome to the Career Data & Insights Hub. This section is based on a critical analysis of the Egyptian psychology profession for 2025-2026. What would you like to explore?",
       menu: {
         licensing: "The Legal & Regulatory Gauntlet",
         market: "The Labor Market & Economics",
@@ -156,83 +155,64 @@ How can I help you today?`,
         digital_pathway: "The Digital 'Third Pathway'",
         education: "The Educational Landscape"
       },
-      licensingContent: `### The Legal & Regulatory Gauntlet: A System in Flux
+      licensingContent: `### The Legal & Regulatory Gauntlet
 
 The primary challenge is not clinical, but legal. The environment is moving from unregulated to a new, high-risk framework.
 
 **The Tripartite Professional Divide:**
-*   **Psychiatrist:** A fully regulated medical doctor, licensed by the Ministry of Health (MOHP) and Medical Syndicate. Can legally diagnose, prescribe, and perform psychotherapy.
-*   **Psychologist:** A profession with "developing regulation." The MOHP formed a new committee in 2024 to create a licensing system, creating uncertainty for practitioners.
-*   **Psychotherapist:** A legally restricted title. The law reserves this for psychiatrists, unless a non-doctor obtains a special MOHP license.
+*   **Psychiatrist:** Fully regulated medical doctor.
+*   **Psychologist:** A profession with "developing regulation."
+*   **Psychotherapist:** A legally restricted title.
 
 **2025 Legislative Upheaval:**
-A new **Medical Liability and Patient Safety Law (2025)** is the most critical development. It introduces harsh criminal penalties, including **imprisonment for up to 10 years**, for medical errors resulting from "gross negligence." Psychologists are in a high-risk position: they may be held liable under this punitive law without the legal protection and defined standards of the Medical Syndicate. This makes private practice significantly more perilous.
+The **Medical Liability and Patient Safety Law (2025)** introduces harsh penalties for errors. Without a strong union (Syndicate) to provide **Sanad (Support)**, psychologists are vulnerable to legal action. This legal precarity often forces practitioners into "safe" but lower-impact roles.
 
 **Source:** *The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis*`,
-      marketContent: `### The Labor Market: The "Corporate Siphon" and Economic Reality
+      marketContent: `### The Labor Market: The "Corporate Siphon"
 
-For a profession with high societal need, the economic incentives for clinicians are disproportionately low.
+For a profession with high societal need, the economic incentives for clinicians are low.
 
 **The Corporate Siphon:**
-Data reveals a stark financial hierarchy. A senior **Industrial-Organizational (I-O) Psychologist** in Cairo earns an average of **EGP 613,369**, which is **52% more** than a senior **Clinical Psychologist** (avg. EGP 402,954). The market is actively pulling talent *out* of healthcare and into better-paying corporate roles in HR, OD, and talent management.
+Data reveals that the market pulls talent *out* of healthcare and into better-paying corporate roles (HR, OD). This creates a brain drain within the country itself.
 
 **Salary vs. Cost of Living:**
-A mid-career psychologist in Cairo can expect to spend over **37% of their gross monthly income** on just rent and basic utilities. This economic precarity is a major "push" factor driving professionals to seek other opportunities.
-
-**The Most Lucrative Path:**
-The **Tech and Business Sector** (UX Research, Market Research) offers the highest earning potential, with senior roles paying significantly more than both clinical and corporate HR paths.
+A mid-career psychologist in Cairo spends over 37% of income on rent. This creates an **Economy of Toil (Cycle of Hardship)** where professionals must work multiple jobs (bricolage) just to survive, leaving little energy for patient care.
 
 **Source:** *The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis*`,
-      public_sectorContent: `### The Public Sector Collapse & The "Brain Drain"
+      public_sectorContent: `### Public Sector Collapse & Brain Drain
 
-The economic disincentives in the clinical track are the "pull" factors for emigration. The catastrophic state of public healthcare provides the "push."
+The **Waithood (Social Stagnation)** experienced by public sector employees is a major push factor.
 
 **The Public Sector Crisis:**
-*   **Mass Resignations:** A "doctors' exodus" is underway, with over 21,000 physicians resigning from the public sector between 2020-2025, citing poor working conditions and burnout.
-*   **Effective Privatization:** In 2025, a ministerial decree increased service fees at public psychiatric hospitals by up to **900%**, introducing fees for previously free services. This effectively dismantles the public sector as a viable career path dedicated to serving the most vulnerable.
+*   **Mass Resignations:** Over 21,000 physicians resigned (2020-2025) due to burnout.
+*   **Effective Privatization:** Fee hikes in public hospitals have dismantled the safety net for the poor.
 
 **The 10x Salary "Escape Pod":**
-The "brain drain" to Gulf countries is an overwhelming economic force. A psychologist in the UAE can earn, on average, **10 to 15 times the salary** of their colleague in Egypt.
-*   **Avg. Clinical Psychologist Salary (Egypt):** ~EGP 320,000
-*   **Avg. Clinical Psychologist Salary (Dubai, UAE):** ~EGP 3,241,000 (equivalent)
-
-This option, however, requires a Master's degree, 2+ years of experience, and navigating a highly bureaucratic foreign licensing process (e.g., Dubai's DHA).
+The "brain drain" to Gulf countries offers a way out of the **Economy of Toil**, with salaries 10-15x higher than in Egypt. However, this requires navigating complex foreign licensing, often needing **Wasta (Social Connections)** or expensive agencies.
 
 **Source:** *The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis*`,
-      digital_pathwayContent: `### The Digital 'Third Pathway': A Market-Based Solution
+      digital_pathwayContent: `### The Digital 'Third Pathway'
 
-The failure of the state and the traditional market has created a vacuum, now being filled by digital tele-psychology platforms like **Shezlong**, **O7 Therapy**, and **Estaraht**.
+Digital platforms like **Shezlong** and **O7 Therapy** are filling the vacuum left by the state.
 
-**Why They Are Succeeding:**
-These platforms are a direct market response to Egypt's primary barriers to care:
-*   They bypass social **stigma** by offering anonymity.
-*   They solve the **geographic** rural-urban access crisis.
-*   They are built for **Arabic-speaking users**, understanding cultural nuances.
+**Why They Succeed:**
+*   **Anonymity:** They bypass social stigma and the fear of **Fadiha (Digital Scandal)**.
+*   **Access:** They solve the geographic crisis (Ashwa'iyat vs. Urban centers).
 
-**A New Career Model & Divergent Standards:**
-In the absence of state licensing, platforms have become regulators.
-*   **Curated Model (O7 Therapy):** Highly selective (20% acceptance rate), requires a Master's degree, and has its own in-house supervision institute (O7 Academy) that new professionals must complete. This is a private, market-based solution to the public supervision failure.
-*   **Open Marketplace Model (Shezlong):** A broader platform inviting professionals worldwide, relying more on user reviews and practitioner-provided credentials.
+**A New Career Model:**
+*   **Curated Model (O7 Therapy):** High barrier to entry, acts as a private regulator.
+*   **Open Marketplace (Shezlong):** Lower barrier, relies on user reviews.
 
-**The Unresolved Risk:**
-This entire sector operates under the shadow of state surveillance. The ethical and legal challenge of guaranteeing patient confidentiality in Egypt's complex digital environment is a significant, unresolved risk for both practitioners and clients.
+**The Risk:**
+Operating in the digital space in Egypt carries privacy risks. Ensuring patient confidentiality is paramount to avoid **Fadiha** for clients.
 
 **Source:** *The Egyptian Psychology Career Landscape (2025-2026): A Critical Analysis*`,
-      educationContent: `### The Educational Foundation: A Fundamental Split
+      educationContent: `### The Educational Foundation
 
-Your choice of university can pre-define your career path. The system is split into two distinct tracks:
+Your choice of university shapes your path in this **credential-based society**.
 
-*   **Public Universities (The "Scientist" Model):**
-    *   **Institutions:** Ain Shams University, Cairo University.
-    *   **Focus:** Research-oriented, designed to create academics.
-    *   **Language:** Arabic.
-    *   **Outcome:** Prepares graduates for the (now collapsing) public sector and academic research.
-
-*   **Private Universities (The "Professional Practitioner" Model):**
-    *   **Institutions:** The American University in Cairo (AUC), The British University in Egypt (BUE).
-    *   **Focus:** Practitioner-oriented, with a non-thesis Master's option (at AUC) designed for clinical practice.
-    *   **Language:** English, with international accreditation.
-    *   **Outcome:** Prepares graduates for private practice, international NGOs, and corporate roles. The high tuition (e.g., ~$9,500/year for AUC's MA) also acts as a significant socioeconomic filter.
+*   **Public Universities:** Focus on the "Scientist" model. Graduates often serve the public sector but face **Waithood** in waiting for government appointments.
+*   **Private Universities:** Focus on the "Practitioner" model. Graduates bypass the queue but face high tuition costs.
 
 **Source:** *Mapping a Profession: A Strategic Blueprint for Data-Insight Guides*`,
     },
@@ -530,7 +510,7 @@ The requirements are broken down into several key areas. Which part would you li
     },
     clinicalLicensingEducational: `### Educational & Personal Requirements
 *   **Degree:** A Master's or Doctorate in Clinical Psychology from the Faculty of Arts of an accredited Egyptian university (or an equivalent).
-*   **Good Standing:** Must have a good reputation and no criminal record related to honor or integrity.
+*   **Good Standing:** Must have a good reputation and no criminal record related to honor or integrity (Wasta often plays a role here, unfortunately).
 *   **Membership:** Must be an active member of a recognized psychological association in Egypt or abroad.
 *   **Examination:** Must pass a dedicated interview and examination set by the official committee.`,
     clinicalLicensingTraining: `### Training & Supervision Requirements

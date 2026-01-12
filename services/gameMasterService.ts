@@ -1,15 +1,26 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { SpecialtyId } from "../types";
 
-// Definitions strictly enforced as Ground Truth for the AI
+// DECOLONIZED ARCHETYPE LIBRARY (Source of Truth)
+const HAKEEM_ARCHETYPES = `
+1. AL-HAMI (The Guardian): Focus on Agency, Protection, and 'Boundaried Responsibility'. Provides 'Sanad' (Support).
+2. AL-DALIL (The Intuitive Navigator): Focus on Pattern Recognition, Systems Thinking. Possesses 'Basira' (Insight).
+3. AL-MUBTAKIR (The Agile Bricoleur): Focus on Cognitive Flexibility, Resourcefulness, and 'Adaptive Resource Management'.
+4. AL-WATAD (The Anchor/Docking Station): Focus on Emotional Regulation, Resilience (Sumoud).
+5. AL-RAIDA (The Pioneer): Evolution of the Guardian for women. Integrates Agency with Nurturing.
+6. AL-WASITA (The Resilient Mediator): Focus on Pragmatism, Negotiation, and Social Leverage.
+7. AL-RAFIQ (The Peer Companion): Focus on Empathy, Validation, and Walking Beside the user.
+`;
+
+// SPECIALTY MAPPING TO ARCHETYPES
 const SPECIALTY_DEFINITIONS = `
-1. Sports Psychology (ID: SPORTS): Enhances performance/well-being. Focuses on goal setting, focus, stress management, coping with pressure/injury, and motivation.
-2. Forensic Psychology (ID: FORENSIC): Intersection of psychology and law. Covers criminal investigations, courtroom testimony, offender assessment, evaluating defendant's mental state.
-3. Consumer Psychology (ID: CONSUMER): Buying behavior and brand perception. Covers decision-making, motivations, influence of culture/emotions, business strategy.
-4. School Psychology (ID: SCHOOL): Supporting students in educational settings. Covers academic/emotional needs, designing interventions, special needs.
-5. Military Psychology (ID: MILITARY): Supporting personnel/veterans. Covers selection, stress management, PTSD treatment, resilience.
-6. Counseling Psychology (ID: COUNSELING): Adjustment and well-being. Covers emotional/social/work concerns, fostering resilience, personal development.
-7. I/O Psychology (ID: IO): Workplace behavior. Covers productivity, job satisfaction, leadership, organizational design.
+1. Sports Psychology (ID: SPORTS) -> AL-HAMI: Focus on mental toughness, focus, and protecting the athlete's state.
+2. Forensic Psychology (ID: FORENSIC) -> AL-DALIL: Seeing hidden patterns in criminal behavior. Truth-seeking (Basira).
+3. Consumer Psychology (ID: CONSUMER) -> AL-MUBTAKIR: Understanding decision triggers, optimizing value perception in scarcity.
+4. School Psychology (ID: SCHOOL) -> AL-WATAD: Creating a safe container (Sanad) for students to grow.
+5. Military Psychology (ID: MILITARY) -> AL-HAMI: Resilience, PTSD recovery, restoring the Guardian instinct after trauma.
+6. Counseling Psychology (ID: COUNSELING) -> AL-RAFIQ (The Peer Companion): Moving from 'Authority' to 'Partnership' in healing.
+7. I/O Psychology (ID: IO) -> AL-MUBTAKIR: Engineering Organizational Culture, fixing broken systems (Organizational Bricolage).
 `;
 
 let ai = null;
@@ -24,61 +35,117 @@ const getAiClient = () => {
 };
 
 /**
- * Fetches a new crisis scenario from the AI Game Master.
- * Context-aware for Region (Egypt/USA) and Language (AR/EN).
- * @param targetId Optional SpecialtyId to force the AI to generate a scenario for a specific specialty (used for deck cycling).
+ * Fetches a new crisis scenario from the Hakeem Engine.
+ * @param region 'usa' or 'egypt'
+ * @param language 'en' or 'ar'
+ * @param targetId Optional SpecialtyId to force generation for a specific specialty.
+ * @param isScarcityMode Boolean to trigger 'Low-Load Mode' (Fadfada tone, simplified choices).
  */
-export const fetchCrisisScenario = async (region: 'usa' | 'egypt' = 'usa', language: 'en' | 'ar' = 'en', targetId?: SpecialtyId) => {
+export const fetchCrisisScenario = async (
+    region: 'usa' | 'egypt' = 'usa', 
+    language: 'en' | 'ar' = 'en', 
+    targetId?: SpecialtyId,
+    isScarcityMode: boolean = false
+) => {
     const client = getAiClient();
     
-    const contextInstruction = region === 'egypt' 
-        ? "CONTEXT: Generate scenarios relevant to Egyptian culture or industries (e.g., Textile factories, Sports clubs in Cairo, Schools in Alexandria)." 
-        : "CONTEXT: Generate scenarios relevant to United States culture and locations.";
+    // SCARCITY & CONTEXT INJECTION
+    let contextInstruction = "";
+    
+    if (region === 'egypt') {
+        if (language === 'en') {
+            // ENGLISH-EGYPT PROTOCOL ("THE HYBRID ANCHOR")
+            contextInstruction = `CONTEXT: EGYPT.
+            PROTOCOL: "THE HYBRID ANCHOR".
+            You are speaking Professional English with Egyptian Depth.
+            RULE: When using specific sociological terms, ALWAYS provide the English definition in parentheses immediately after.
+            
+            MAPPING TABLE:
+            - Ashwa'iyat -> "Ashwa'iyat (Informal Settlements)"
+            - Waithood -> "Waithood (Social Stagnation)"
+            - Economy of Toil -> "Economy of Toil (Cycle of Hardship)"
+            - Jada'ana -> "Jada'ana (Community Solidarity)"
+            - Wasta -> "Wasta (Social Connections)"
+            - Gam'iya -> "Gam'iya (Money Circle)"
+            - Fadiha -> "Fadiha (Digital Scandal)"
+            
+            Integrate these concepts where relevant to the crisis.`;
+        } else {
+            // ARABIC-EGYPT (THE EDUCATIONAL BRIDGE)
+            contextInstruction = `CONTEXT: EGYPT (ASHWA'IYAT & INFORMAL ECONOMY).
+            PROTOCOL: "THE EDUCATIONAL BRIDGE".
+            
+            MAPPING TABLE (Strict Adherence):
+            - Waithood -> "مرحلة الانتظار (إنك تحس إن حالك واقف ومأجل حياتك)"
+            - Iterative Survivalism -> "البقاء بالتجريب (إنك تعيش اليوم بيومه وتلقط رزقك)"
+            - Economy of Toil -> "اقتصاد الكدح (الدوامة اللي فيها تعب كتير وعائد قليل)"
+            - Double Burden -> "العبء المزدوج (لما تكوني شايلة شيلتين: شغل البيت وضغط الشغل)"
+            - Bricolage -> "الذكاء التكيفي (إنك تعرف تتصرف وتغزل برجل حمار)"
+            - Resilience (Sitir) -> "الصلابة النفسية (قدرتك إنك تصمد وتخرج من الأزمة 'مستور' من غير ما تتكسر)"
+            - Ashwa'iyat -> "مجتمعات العشوائيات (المناطق اللي ناسها بتسند بعض)"
+            - Digital Reputation -> "الوصمة الرقمية (لما المشكلة تلف النت كله، والإنترنت مابينساش)"
+            `;
+        }
+    } else {
+        contextInstruction = "CONTEXT: USA (Formal Economy, Individualism).";
+    }
 
-    const languageInstruction = language === 'ar'
-        ? "OUTPUT LANGUAGE: The 'alert_text', 'target_specialty', and 'correct_reasoning' MUST be in professional Modern Standard Arabic (Fusha)."
+    let languageInstruction = language === 'ar'
+        ? `OUTPUT LANGUAGE: Egyptian Ammiya (العامية المصرية).
+           TRANSLATION RULES:
+           1. RULE: You MUST mention the **Academic Term** first, followed immediately by the **Street Equivalent** in parentheses as defined in the MAPPING TABLE.
+           2. Translate "Incoming Signal" to "إشارة من شبكة المنطقة:".
+           3. SCRIPT RULE: Use Arabic script ONLY. No Latin characters.
+           4. TONE: "Ibn Balad" (Scientific Grounding + Street Smart).`
         : "OUTPUT LANGUAGE: English.";
 
-    // Logic to enforce the shuffled deck
+    if (isScarcityMode && language === 'ar') {
+        languageInstruction += " TONE: 'Fadfada' (فضفضة) - Warm, supportive, simple words. The user is stressed.";
+    }
+
     const targetInstruction = targetId 
-        ? `MANDATORY INSTRUCTION: You MUST generate a crisis scenario specifically for the Specialty ID: "${targetId}". Do not select randomly. The 'target_id' in JSON MUST be "${targetId}". Use the definition provided in GROUND TRUTH.`
-        : "INSTRUCTION: Select ONE specialty ID from the list below randomly.";
+        ? `MANDATORY: Generate for ID: "${targetId}". Use the assigned ARCHETYPE from the library.`
+        : "INSTRUCTION: Select ONE specialty ID randomly.";
 
-    // SAFETY PROTOCOL & PERSONA
+    const scarcityInstruction = isScarcityMode
+        ? `CRITICAL: User is in SCARCITY MODE (Tunneling). 
+           1. ALERT TEXT must be short, direct, and emotionally validating.
+           2. FOCUS on immediate 'Micro-Actions'.
+           3. FRAMING: Frame the crisis as a shared struggle (Toil), not a failure.`
+        : "";
+
+    // THE HAKEEM SYSTEM PROMPT
     const systemPrompt = `
-    IDENTITY: You are the "PsyEgypt Central Command System". You are communicating directly with a Field Dispatcher.
-    TONE: Tactical, Urgent, Professional, Precise.
+    IDENTITY: You are the "Hakeem Engine 2.0". You are a Decolonial Social Systems Engineer.
     
-    SAFETY PROTOCOL (CRITICAL):
-    1. AVOID specific references to "Egyptian Intelligence", "GIS", "The Army", "Police Force", or specific political figures.
-    2. USE professional, generic sector terms instead:
-       - Instead of "Army/Military", use "Defense Sector" or "Service Personnel".
-       - Instead of "Intelligence/Police", use "Security Sector" or "Forensic Units".
-       - Focus strictly on the *psychological* aspect (PTSD, resilience, selection, rehabilitation), not operational/combat details.
+    PROTOCOL:
+    1. REJECT FOLKLORIC TERMS: Never use 'Fahl', 'Darwish', 'Fahlawi', 'Hacker', or 'Fadiha' (unless using the defined mapping).
+    2. USE APPROVED TERMS: Use 'Al-Hami', 'Al-Dalil', 'Al-Mubtakir'.
+    3. VALIDATE BRICOLAGE: Frame 'Hustle' not as instability, but as High Adaptive Capacity.
+    4. VALIDATE SANAD: Frame social support networks (Gam'iya, Family) as assets.
     
-    GOAL: ${targetId ? `Generate a high-stakes 'Crisis Alert' specifically for target_id: ${targetId}` : "Select ONE specialty ID randomly and generate a 'Crisis Alert'."}
-    
-    ${targetInstruction}
+    ARCHETYPE LIBRARY:
+    ${HAKEEM_ARCHETYPES}
 
-    GROUND TRUTH:
+    GROUND TRUTH MAPPING:
     ${SPECIALTY_DEFINITIONS}
 
     ${contextInstruction}
     ${languageInstruction}
+    ${targetInstruction}
+    ${scarcityInstruction}
 
     FORMATTING RULES:
-    1. 'alert_text': Start with "INCOMING SIGNAL:" or "ATTENTION DISPATCHER:". Max 2 sentences. Urgent tone. DO NOT mention the specialty name explicitly in the alert.
-    2. 'target_id': Must be one of ['SPORTS', 'FORENSIC', 'CONSUMER', 'SCHOOL', 'MILITARY', 'COUNSELING', 'IO'].
-    3. 'correct_reasoning': Explain why this ID is the solution using the provided Ground Truth definitions.
-    4. 'learn_more_key': Suggest a navigation key (e.g., 'clinical_pathOverview' for Counseling, 'workforce_data' for IO, 'explore_paths' for others).
-
+    1. 'alert_text': Urgent, immersive.
+    2. 'correct_reasoning': Explain WHY this specialty fits, referencing the Hakeem Archetype (e.g., "This requires the pattern recognition of Al-Dalil...").
+    
     OUTPUT JSON ONLY.
     `;
 
     try {
         const response = await client.models.generateContent({
             model: "gemini-2.5-flash",
-            contents: "Generate a new Crisis Mission now.",
+            contents: "Generate a new Hakeem Crisis Scenario.",
             config: {
                 systemInstruction: systemPrompt,
                 responseMimeType: "application/json",
@@ -97,23 +164,26 @@ export const fetchCrisisScenario = async (region: 'usa' | 'egypt' = 'usa', langu
             }
         });
 
-        const text = response.text;
-        if (!text) throw new Error("No response from AI Game Master");
+        let text = response.text;
+        if (!text) throw new Error("No response from Hakeem Engine");
+        
+        // JSON Sanitization (Clean Code Policy)
+        // Removes markdown code blocks to ensure pure JSON parsing
+        text = text.replace(/```json|```/g, '').trim();
         
         return JSON.parse(text);
     } catch (error) {
-        console.error("Game Master Error:", error);
-        // Fallback mission with safe terminology
+        console.error("Hakeem Engine Error:", error);
         return {
             id: "fallback-001",
             target_id: "IO",
-            target_specialty: language === 'ar' ? "علم النفس الصناعي والتنظيمي" : "I/O Psychology",
+            target_specialty: language === 'ar' ? "علم النفس التنظيمي (المبتكر المرن)" : "I/O Psychology (The Agile Bricoleur)",
             alert_text: language === 'ar' 
-                ? "إشارة واردة: انقطاع مفاجئ في الإنتاجية في قطاع التصنيع بعد عملية دمج الشركات. الروح المعنوية منخفضة للغاية."
-                : "INCOMING SIGNAL: Productivity has plummeted following the corporate merger. Morale is critical.",
+                ? "إشارة من شبكة المنطقة: العمال في المصنع عاملين إضراب صامت بسبب نظام الورديات الجديد. الإنتاج واقف والكل مخنوق."
+                : "SIGNAL: Silent strike in the factory due to shift rigidity. Production halted. Morale critical.",
             correct_reasoning: language === 'ar'
-                ? "أخصائي علم النفس الصناعي يركز على سلوك مكان العمل والديناميكيات التنظيمية."
-                : "I/O Psychologists specialize in workplace behavior and organizational dynamics.",
+                ? "هذا يتطلب عقلية 'المبتكر المرن' (Al-Mubtakir) لاستخدام **الذكاء التكيفي (إنك تعرف تتصرف وتغزل برجل حمار)** لإعادة تصميم بيئة العمل."
+                : "This requires the 'Agile Bricoleur' (Al-Mubtakir) mindset to apply Adaptive Resource Management and redesign the workflow.",
             learn_more_key: "workforce_data"
         };
     }

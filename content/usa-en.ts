@@ -1,4 +1,5 @@
 
+
 const content = {
     headerTitle: "Career Pathfinder",
     headerSubtitle: "Psychology Career Guidance",
@@ -29,7 +30,7 @@ How can I help you today?`,
     },
 
     hakeemMirror: {
-        intro: "Welcome to **The Wisdom Compass**. Unlike the standard quiz, this assesses your core motivations rather than just your skills. It asks not what you want to do, but *who you are* when challenged.",
+        intro: "Welcome to **The Wisdom Compass**. Unlike the standard quiz, this reflects on your core motivations rather than just your skills. It asks not what you want to do, but *who you are* when challenges arise. Are you ready for this reflection?",
         questions: [
             {
                 question: "Imagine two futures. In one, you are a famous authority with a prestigious title, but you feel empty inside. In the other, you are an unknown worker improving thousands of lives, but no one knows your name. Which path feels safer to your heart?",
@@ -66,36 +67,36 @@ How can I help you today?`,
         results: {
             status_healer: {
                 title: "The Benevolent Authority",
-                text: "You seek the title of 'Doctor' not just for ego, but because you believe authority helps you heal others. **Your Trap:** You may burn out trying to maintain the image of perfection. **Your Path:** Clinical Psychology or Psychiatry."
+                text: "You seek the title of 'Doctor' partly because you believe authority enables you to heal others more effectively. **The Challenge:** Balancing the weight of authority with your own well-being is crucial to avoid burnout. **Your Path:** Clinical Psychology or Psychiatry."
             },
             status_fixer: {
                 title: "The Executive Leader",
-                text: "You want to lead systems and be recognized for your efficiency. You are not a therapist; you are a leader of well-being. **Your Path:** Industrial-Organizational Psychology or Administration."
+                text: "You naturally lean towards leading systems and valuing efficiency. You may find more fulfillment in leading the systems that enable well-being, rather than providing direct therapy. **Your Path:** Industrial-Organizational Psychology or Administration."
             },
             status_thinker: {
                 title: "The Distinguished Professor",
-                text: "You seek respect through intellect. You want to be the smartest person in the room. **Your Path:** Academia and High-Level Research."
+                text: "You seek respect through intellect and deep understanding. **Your Path:** Academia and High-Level Research. Your greatest contribution may be in formulating the knowledge that others study."
             },
             impact_healer: {
                 title: "The Silent Guardian",
-                text: "You do not care if they know your name, only that they are safe. You have the true heart of a counselor. **Your Path:** Non-Profit work, Trauma Counseling, or Social Work."
+                text: "The safety and well-being of others is your priority, even if you work behind the scenes. You possess the true heart of a counselor. **Your Path:** Non-Profit work, Trauma Counseling, or Social Work. Remember, protecting your own energy allows you to keep giving."
             },
             impact_fixer: {
                 title: "The System Architect",
-                text: "You see the suffering caused by bad systems and you want to fix the *root*. **Your Path:** Policy Making, Organizational Development, or Advocacy."
+                text: "You notice the suffering caused by systemic flaws (poverty, bad laws) and want to fix the root causes. **Your Path:** Policy Making, Organizational Development, or Advocacy. Your impact may be in treating the society rather than the individual."
             },
             impact_thinker: {
                 title: "The Knowledge Pioneer",
-                text: "You save lives by finding the truth. You are the scientist working on the cure while others treat the symptoms. **Your Path:** Neuroscience, Data Science, or UX Research."
+                text: "You save lives by finding the truth and evidence. **Your Path:** Neuroscience, Data Science, or UX Research. Your impact might not be immediately visible, but it is infinite and foundational."
             }
         },
         modifiers: {
-            perfectionist: "Warning: You have the vision, but the fear of a Perfectionist. You tie your worth to your success. In psychology, failure is just data. You must learn to fail faster.",
-            blamer: "Observation: You have a 'Blamer' reflex. Focusing on the unfairness of the system will paralyze you. The world is unfair; your job is to navigate it, not just judge it.",
-            architect: "Strength: You have the 'Architect' mindset. You view pain as information. This resilience is the #1 predictor of long-term success in this field.",
-            idealist: "Advice: You are a pure 'Idealist'. This is noble, but dangerous. Without financial safety, you cannot help others effectively. Don't become a martyr for your cause.",
-            pragmatist: "Advice: You have chosen the 'Tentmaker' path (like Paul the Apostle). Using a job to fund your dream is wise, but dangerous. Ensure your money fuels your mission, not your ego.",
-            conformist: "Warning: You are seeking safety above all else. Psychology is a field for risk-takers. If you prioritize comfort over conviction, you may find yourself rich but empty."
+            perfectionist: "Reflection: You have a powerful vision, but perfectionism can sometimes slow you down. Remember that in psychology, setbacks are often just data points. Viewing 'failure' as learning allows you to move forward with less weight.",
+            blamer: "Insight: You have a keen eye for systemic injustice. However, focusing solely on what is wrong can be draining. Your challenge is to navigate the imperfect system so you can change it from within.",
+            architect: "Strength: You have the 'Architect' mindset. You view challenges as information to be analyzed. This resilience is a tremendous asset that will serve you well in this field.",
+            idealist: "Guidance: Your idealism is a noble strength. To sustain this passion long-term, financial stability acts as a foundation, not a distraction. Protecting your own well-being ensures you can keep helping others.",
+            pragmatist: "Guidance: You have chosen a path of practical wisdom. Using a job to support your true ambition is a smart strategy. Just ensure your compass remains set on your true passion.",
+            conformist: "Perspective: Seeking safety is a natural human instinct. However, growth in psychology often happens outside the comfort zone. Consider how you might balance your need for security with work that truly fulfills you."
         }
     },
 

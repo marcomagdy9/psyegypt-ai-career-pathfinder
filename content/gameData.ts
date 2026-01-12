@@ -11,23 +11,23 @@ export interface DossierProfile {
 export const SPECIALTY_DOSSIERS: Record<SpecialtyId, { en: DossierProfile; ar: DossierProfile }> = {
     SPORTS: {
         en: {
-            title: "Sports Psychologist",
-            role_definition: "Enhances performance and well-being of athletes and teams.",
+            title: "The Guardian (Al-Hami)",
+            role_definition: "Focuses on 'Boundaried Responsibility'. Protects the athlete's mental state and focus without domination.",
             tactics: [
-                "Goal Setting & Visualization",
-                "Focus & Attention Control",
+                "Focus Regulation",
+                "Performance Protection",
                 "Stress Management"
             ],
             market_status: "Private Sector / High Niche",
             market_color: "text-yellow-400"
         },
         ar: {
-            title: "أخصائي النفس الرياضي",
-            role_definition: "تعزيز الأداء والرفاهية النفسية للرياضيين والفرق.",
+            title: "الحامي (مدرب الأبطال)",
+            role_definition: "مش بس بيدرب عضلات.. ده اللي بيحمي 'الفورمة' النفسية للاعب، ويخليه يركز في الملعب وينسى دوشة الجمهور.",
             tactics: [
-                "تحديد الأهداف والتصور الذهني",
-                "التحكم في الانتباه والتركيز",
-                "إدارة الضغوط التنافسية"
+                "تظبيط الدماغ قبل الماتش",
+                "حماية التركيز",
+                "إدارة الضغط العصبي"
             ],
             market_status: "قطاع خاص / تخصص دقيق",
             market_color: "text-yellow-400"
@@ -35,23 +35,23 @@ export const SPECIALTY_DOSSIERS: Record<SpecialtyId, { en: DossierProfile; ar: D
     },
     FORENSIC: {
         en: {
-            title: "Forensic Psychologist",
-            role_definition: "Operates at the intersection of psychology and the legal system.",
+            title: "The Navigator (Al-Dalil)",
+            role_definition: "Possesses 'Basira' (Insight). Sees patterns in criminal behavior where others see chaos. A truth-seeker.",
             tactics: [
-                "Criminal Investigations Profiling",
-                "Courtroom Expert Testimony",
-                "Offender Risk Assessment"
+                "Pattern Recognition",
+                "Truth Seeking",
+                "Risk Assessment"
             ],
             market_status: "Government / Specialized Sector",
             market_color: "text-blue-400"
         },
         ar: {
-            title: "أخصائي النفس الجنائي",
-            role_definition: "يعمل في نقطة التقاء علم النفس والنظام القضائي والقانوني.",
+            title: "الدليل (قارئ الأفكار)",
+            role_definition: "بيشوف اللي غيره مايشوفوش. بيعرف يقرأ ما وراء الجريمة، ويحلل شخصية اللي قدامه عشان يوصل للحقيقة.",
             tactics: [
-                "التنميط الجنائي في التحقيقات",
-                "شهادة الخبير أمام المحكمة",
-                "تقييم مخاطر الجناة"
+                "قراءة لغة الجسد",
+                "كشف الكذب",
+                "تقييم الخطر"
             ],
             market_status: "قطاع حكومي / قطاع متخصص",
             market_color: "text-blue-400"
@@ -59,23 +59,23 @@ export const SPECIALTY_DOSSIERS: Record<SpecialtyId, { en: DossierProfile; ar: D
     },
     CONSUMER: {
         en: {
-            title: "Consumer Psychologist",
-            role_definition: "Analyzes buying behavior, decision-making, and brand perception.",
+            title: "The Agile Bricoleur (Al-Mubtakir)",
+            role_definition: "Expert in Adaptive Resource Management. Understands value perception in scarcity economies.",
             tactics: [
-                "Analyzing Brand Perception",
-                "Mapping Purchase Motivations",
-                "Cultural & Emotional Influence"
+                "Market Sensing",
+                "Cognitive Flexibility",
+                "Value Framing"
             ],
             market_status: "Corporate Sector / High Potential",
             market_color: "text-green-400"
         },
         ar: {
-            title: "أخصائي نفس المستهلك",
-            role_definition: "تحليل سلوك الشراء، اتخاذ القرار، والصورة الذهنية للعلامات التجارية.",
+            title: "المبتكر المرن (فنان البيع)",
+            role_definition: "بيفهم 'دماغ الزبون'. بيعرف إيه اللي يخلي الناس تشتري حتى لو الظروف صعبة، ويحول الحاجة لقيمة.",
             tactics: [
-                "تحليل إدراك العلامة التجارية",
-                "رسم خرائط دوافع الشراء",
-                "التأثير الثقافي والعاطفي"
+                "فهم السوق",
+                "لعب على الوتر الحساس",
+                "عرض القيمة بذكاء"
             ],
             market_status: "قطاع الشركات / نمو عالي",
             market_color: "text-green-400"
@@ -83,23 +83,23 @@ export const SPECIALTY_DOSSIERS: Record<SpecialtyId, { en: DossierProfile; ar: D
     },
     SCHOOL: {
         en: {
-            title: "School Psychologist",
-            role_definition: "Supports students' ability to learn and teachers' ability to teach.",
+            title: "The Anchor (Al-Watad)",
+            role_definition: "Provides 'Sanad' (Support) and stability for students in a fragmented system.",
             tactics: [
-                "Assessing Academic Needs",
-                "Designing Behavioral Interventions",
-                "Collaborating with Teachers/Parents"
+                "Building Safety Nets",
+                "Emotional Regulation",
+                "Intervention Design"
             ],
             market_status: "Licensing Required / Healthcare",
             market_color: "text-blue-400"
         },
         ar: {
-            title: "الأخصائي النفسي المدرسي",
-            role_definition: "دعم قدرة الطلاب على التعلم وقدرة المعلمين على التدريس.",
+            title: "الوتد (سند الطلبة)",
+            role_definition: "هو 'الأمان' في المدرسة. بيحتوي مشاكل الطلبة، ويقف جنبهم لما الدنيا تملطش معاهم (تنمر، مشاكل بيت، مذاكرة).",
             tactics: [
-                "تقييم الاحتياجات الأكاديمية",
-                "تصميم التدخلات السلوكية",
-                "التعاون مع المعلمين وأولياء الأمور"
+                "احتواء المشاكل",
+                "بناء الثقة",
+                "الدعم النفسي"
             ],
             market_status: "يتطلب ترخيص / قطاع رعاية صحية",
             market_color: "text-blue-400"
@@ -107,23 +107,23 @@ export const SPECIALTY_DOSSIERS: Record<SpecialtyId, { en: DossierProfile; ar: D
     },
     MILITARY: {
         en: {
-            title: "Military Psychologist",
-            role_definition: "Supports the mental health and effectiveness of personnel.",
+            title: "The Guardian (Al-Hami) - Defense",
+            role_definition: "Restores the Guardian instinct after trauma. Focus on Resilience (Sumoud).",
             tactics: [
-                "Personnel Selection & Screening",
+                "Trauma Recovery",
                 "Resilience Training",
-                "PTSD Treatment & Transition Support"
+                "Transition Support"
             ],
             market_status: "Government / Specialized Sector",
             market_color: "text-blue-400"
         },
         ar: {
-            title: "أخصائي النفس العسكري",
-            role_definition: "دعم الصحة النفسية والفعالية للأفراد.",
+            title: "الحامي (درع الصمود)",
+            role_definition: "بيرجع 'الروح' للمقاتل بعد الصدمة. بيعلمهم ازاي يقفوا على رجليهم تاني بعد ما شافوا الموت بعينهم.",
             tactics: [
-                "اختيار وفحص الأفراد",
-                "تدريب المرونة النفسية",
-                "علاج الصدمات ودعم الانتقال"
+                "علاج صدمات الحرب",
+                "بناء الصلابة النفسية",
+                "التعافي والعودة"
             ],
             market_status: "قطاع حكومي / قطاع متخصص",
             market_color: "text-blue-400"
@@ -131,23 +131,23 @@ export const SPECIALTY_DOSSIERS: Record<SpecialtyId, { en: DossierProfile; ar: D
     },
     COUNSELING: {
         en: {
-            title: "Counseling Psychologist",
-            role_definition: "Focuses on facilitating personal and interpersonal functioning across the lifespan.",
+            title: "The Peer Companion (Al-Rafiq)",
+            role_definition: "Moves from authority to partnership. Facilitates healing through validation and empathy.",
             tactics: [
-                "Developing Coping Strategies",
-                "Career & Vocational Development",
+                "Active Listening",
+                "Validating Toil",
                 "Fostering Resilience"
             ],
             market_status: "Licensing Required / Healthcare",
             market_color: "text-green-400"
         },
         ar: {
-            title: "أخصائي النفس الإرشادي",
-            role_definition: "التركيز على تسهيل الأداء الشخصي والاجتماعي عبر مراحل الحياة.",
+            title: "الرفيق (صاحب الطريق)",
+            role_definition: "مش دكتور ببالطو، ده 'صاحب جدع' بس بعلم. بيسمع من غير ما يحكم، ويمشي معاك رحلة التعافي خطوة بخطوة.",
             tactics: [
-                "تطوير استراتيجيات التكيف",
-                "التطوير المهني والوظيفي",
-                "تعزيز المرونة النفسية"
+                "السمع بقلب",
+                "الطبطبة بذكاء",
+                "بناء المرونة"
             ],
             market_status: "يتطلب ترخيص / قطاع رعاية صحية",
             market_color: "text-green-400"
@@ -155,23 +155,23 @@ export const SPECIALTY_DOSSIERS: Record<SpecialtyId, { en: DossierProfile; ar: D
     },
     IO: {
         en: {
-            title: "I/O Psychologist",
-            role_definition: "Applies psychological principles to workplace behavior and productivity.",
+            title: "The Agile Bricoleur (Al-Mubtakir)",
+            role_definition: "Focuses on 'Engineering Organizational Culture' and 'Adaptive Resource Management'.",
             tactics: [
-                "Productivity Enhancement",
-                "Leadership Development",
-                "Organizational Design & Culture"
+                "Productivity Design",
+                "Organizational Culture",
+                "Leadership Development"
             ],
             market_status: "Corporate Sector / High Potential",
             market_color: "text-green-400"
         },
         ar: {
-            title: "أخصائي النفس الصناعي والتنظيمي",
-            role_definition: "تطبيق المبادئ النفسية على سلوك مكان العمل والإنتاجية.",
+            title: "المبتكر المرن (مهندس الأنظمة)",
+            role_definition: "مش مجرد مدير.. ده اللي بيعرف يحل مشاكل الروتين، و'يولف' الموارد عشان الشغل يمشي والناس ترتاح.",
             tactics: [
-                "تحسين الإنتاجية",
-                "تطوير القيادة",
-                "التصميم والثقافة التنظيمية"
+                "تسليك مسارات الشغل",
+                "استغلال المتاح بذكاء",
+                "تحسين جو الشركة"
             ],
             market_status: "قطاع الشركات / نمو عالي",
             market_color: "text-green-400"

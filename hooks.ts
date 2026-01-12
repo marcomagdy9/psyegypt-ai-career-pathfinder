@@ -2,6 +2,7 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { generateSpeech } from './services/geminiService';
 import { fetchCrisisScenario } from './services/gameMasterService';
+import { calculateRada, calculateResilience, detectScarcityMode } from './services/hakeemLogic';
 import { SpecialtyId } from './types';
 
 // --- AUDIO UTILITIES ---
@@ -170,7 +171,8 @@ const useQuiz = (currentContent, addMessage) => {
         const topResult = results[topCategoryKey];
 
         const defaultRoleKey = currentContent.headerTitle.includes('PsyEgypt') ? 'ba' : 'bachelors';
-        const educationLevelKey = educationLevel.replace('edu_', '');
+        // Check for null educationLevel to prevent crash
+        const educationLevelKey = educationLevel ? educationLevel.replace('edu_', '') : defaultRoleKey;
         const rolesText = topResult.roles[educationLevelKey] || topResult.roles[defaultRoleKey] || 'Explore entry-level roles!';
         
         let resultText = `${results.header}\n\n### 1. ${topResult.title}\n${topResult.description}\n\n**Potential Roles for you:** ${rolesText}\n\n`;
@@ -231,7 +233,7 @@ const useQuiz = (currentContent, addMessage) => {
     return { quizState, setQuizState, startQuiz, handleQuizAnswer };
 };
 
-// --- CUSTOM HOOK: useHakeem (The Deep Mirror) ---
+// --- CUSTOM HOOK: useHakeem (The Deep Mirror - Decolonized 2.0) ---
 
 const useHakeem = (currentContent, addMessage) => {
     const [hakeemState, setHakeemState] = useState({
@@ -247,22 +249,60 @@ const useHakeem = (currentContent, addMessage) => {
         setHakeemState({ ...finalState, active: false, step: 0 });
         
         const { motive, energy, resilience, reality } = finalState;
+
+        // Safeguard: If state is incomplete (e.g. navigation interruption), exit gracefully without processing results
+        if (!motive || !energy || !resilience || !reality) {
+            return;
+        }
+
         const resultsContent = currentContent.hakeemMirror.results;
         const modifiersContent = currentContent.hakeemMirror.modifiers;
 
-        // 1. Base Profile
-        const baseKey = `${motive}_${energy}`;
+        // --- HAKEEM ENGINE SCORING (Mapping Archetypes to Factors) ---
+        // Motive: Status (Low Trust) vs Impact (High Trust)
+        const trustScore = motive === 'hak_motive_impact' ? 5 : 2;
+        
+        // Energy: Healer (Competence) vs Fixer (Competence) vs Thinker (Competence)
+        const competenceScore = 4; // Assuming all instincts are valid forms of competence
+        
+        // Resilience: Perfectionist (Low Change) vs Blamer (Low Control) vs Architect (High Change)
+        let changeScore = 3;
+        if (resilience === 'hak_resilience_perfectionist') changeScore = 1;
+        if (resilience === 'hak_resilience_architect') changeScore = 5;
+
+        // Reality: Idealist (Low Control/Efficacy) vs Pragmatist (High Control) vs Conformist (Low Efficacy)
+        let controlScore = 3;
+        if (reality === 'hak_reality_idealist') controlScore = 2; // Rigid
+        if (reality === 'hak_reality_pragmatist') controlScore = 5; // Bricolage
+
+        // RADA Calculation (Contentment)
+        // Spiritual Coping mapped to Trust; Self Efficacy mapped to Control
+        const radaResult = calculateRada(trustScore, controlScore, 2); // Default moderate distress
+        
+        // RESILIENCE Calculation
+        const resilienceIndex = calculateResilience(competenceScore, trustScore, changeScore, controlScore);
+
+        // 1. Base Profile Construction
+        const baseKey = `${motive.replace('hak_motive_', '')}_${energy.replace('hak_energy_', '')}`;
         const baseResult = resultsContent[baseKey] || { title: "The Seeker", text: "Your path is unique." };
         
         let finalOutput = `### ${baseResult.title}\n\n${baseResult.text}\n\n`;
+        
+        // 2. Add Hakeem Metrics (Quantitative Insight)
+        finalOutput += `#### 🧠 Hakeem Metrics (مؤشرات الحكيم)\n`;
+        finalOutput += `*   **Resilience Index (الصمود):** ${resilienceIndex}/100\n`;
+        finalOutput += `*   **Rada Score (الرضا):** ${radaResult.score}/100 - *${radaResult.status}*\n\n`;
 
-        // 2. Wisdom Modifiers
+        // 3. Wisdom Modifiers
+        const resKey = resilience.replace('hak_resilience_', '');
+        const realKey = reality.replace('hak_reality_', '');
+
         if (modifiersContent) {
-            if (resilience && modifiersContent[resilience]) {
-                finalOutput += `> **Wisdom on Failure:** ${modifiersContent[resilience]}\n\n`;
+            if (modifiersContent[resKey]) {
+                finalOutput += `> **Wisdom on Failure:** ${modifiersContent[resKey]}\n\n`;
             }
-            if (reality && modifiersContent[reality]) {
-                finalOutput += `> **Wisdom on Money:** ${modifiersContent[reality]}\n\n`;
+            if (modifiersContent[realKey]) {
+                finalOutput += `> **Wisdom on Reality:** ${modifiersContent[realKey]}\n\n`;
             }
         }
 
@@ -296,12 +336,11 @@ const useHakeem = (currentContent, addMessage) => {
         const { step } = hakeemState;
         
         const parts = payload ? payload.split('_') : [];
-        const type = parts[1]; 
-        const value = parts[2]; 
+        const stateKey = parts[1]; // motive, energy, etc.
         
         const newState = {
             ...hakeemState,
-            [type]: value
+            [stateKey]: payload
         };
 
         if (step < 4) {
@@ -323,7 +362,7 @@ const useHakeem = (currentContent, addMessage) => {
     return { hakeemState, setHakeemState, startHakeem, handleHakeemAnswer };
 }
 
-// --- CUSTOM HOOK: useControlRoomAI (Infinite Strategy Mode) ---
+// --- CUSTOM HOOK: useControlRoomAI (Infinite Strategy Mode with Scarcity Filter) ---
 
 const ALL_SPECIALTIES: SpecialtyId[] = ['SPORTS', 'FORENSIC', 'CONSUMER', 'SCHOOL', 'MILITARY', 'COUNSELING', 'IO'];
 
@@ -344,7 +383,8 @@ const useControlRoomAI = (region, language) => {
         score: 0,
         streak: 0,
         feedback: null,
-        missionQueue: [] as SpecialtyId[]
+        missionQueue: [] as SpecialtyId[],
+        isScarcityMode: false
     });
 
     const initGame = useCallback(async () => {
@@ -359,11 +399,12 @@ const useControlRoomAI = (region, language) => {
             feedback: null, 
             score: 0, 
             streak: 0,
-            missionQueue: deck
+            missionQueue: deck,
+            isScarcityMode: false
         }));
         
         playGameSound('radar');
-        const mission = await fetchCrisisScenario(region, language, targetId);
+        const mission = await fetchCrisisScenario(region, language, targetId, false);
         setGameState(prev => ({ ...prev, loading: false, currentMission: mission }));
     }, [region, language]);
 
@@ -386,9 +427,10 @@ const useControlRoomAI = (region, language) => {
         }));
         
         playGameSound('radar');
-        const mission = await fetchCrisisScenario(region, language, targetId);
+        // Pass current scarcity mode to the fetch function
+        const mission = await fetchCrisisScenario(region, language, targetId, gameState.isScarcityMode);
         setGameState(prev => ({ ...prev, loading: false, currentMission: mission }));
-    }, [region, language, gameState.missionQueue]);
+    }, [region, language, gameState.missionQueue, gameState.isScarcityMode]);
 
     const deploySpecialist = useCallback((userChoiceId: SpecialtyId) => {
         if (!gameState.currentMission) return;
@@ -396,12 +438,13 @@ const useControlRoomAI = (region, language) => {
         const isCorrect = userChoiceId === gameState.currentMission.target_id;
 
         if (isCorrect) {
-            // SUCCESS LOGIC: Trigger Dossier overlay, do NOT auto-fetch next.
+            // SUCCESS LOGIC: Reduce Scarcity Mode if active (Success relieves pressure - Bandwidth Recovery)
             playGameSound('success');
             setGameState(prev => ({
                 ...prev,
                 score: prev.score + 100 + (prev.streak * 10),
                 streak: prev.streak + 1,
+                isScarcityMode: false, // Success resets scarcity tunneling
                 feedback: {
                     status: 'success',
                     text: `SUCCESS! ${gameState.currentMission.correct_reasoning}`,
@@ -409,13 +452,13 @@ const useControlRoomAI = (region, language) => {
                 }
             }));
         } else {
-            // FAILURE LOGIC (MASTERY LOOP): Penalize Score & Streak. Allow Retry.
+            // FAILURE LOGIC: Trigger Scarcity Mode on failure (Simulating stress/tunneling)
             playGameSound('fail');
             setGameState(prev => ({
                 ...prev,
-                score: Math.max(0, prev.score - 50), // Penalty
-                streak: 0, // Reset Streak
-                // Keep currentMission active so they can try again
+                score: Math.max(0, prev.score - 50), 
+                streak: 0, 
+                isScarcityMode: true, // Failure triggers Scarcity Mode for next generation
                 feedback: {
                     status: 'failure',
                     text: language === 'ar' 
@@ -597,6 +640,19 @@ export const useChatManager = (currentContent, country, language) => {
     };
   };
 
+  const findChoiceText = (payload) => {
+    const lastMessage = messages[messages.length - 1];
+    const choice = lastMessage?.choices?.find(c => c.payload === payload);
+    if (choice && typeof choice.text === 'string') {
+        return choice.text;
+    }
+    // Fallback for footer icons or if text not found
+    if (typeof payload === 'string') {
+        return payload.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    }
+    return 'My choice';
+  };
+
   const handleChoice = useCallback((payload) => {
     // Priority: Control Room Exit
     if (payload === 'exit_game') {
@@ -627,21 +683,33 @@ export const useChatManager = (currentContent, country, language) => {
         return;
     }
 
-    // Only add the user choice message if we are NOT in the middle of a Hakeem reflection flow
-    // or if the choice isn't part of Hakeem. But Hakeem choices are handled specifically.
-    // We add the text here for standard UX.
     addMessage(findChoiceText(payload), 'user');
 
     // Priority Check: Is Hakeem active?
     if (hakeemState.active) {
-        handleHakeemAnswer(payload);
-        return;
+        // Strict Check: Only process if payload is a valid Hakeem answer
+        if (payload && payload.startsWith('hak_')) {
+            handleHakeemAnswer(payload);
+            return;
+        } else {
+            // User interrupted flow (e.g. clicked Footer Nav), Exit Hakeem mode
+            setHakeemState(prev => ({ ...prev, active: false }));
+            // Proceed to standard map handling below
+        }
     }
 
     // Priority Check: Is Standard Quiz active?
     if (quizState.active) {
-        handleQuizAnswer(payload);
-        return;
+         // Strict Check: Only process if payload is a valid Quiz answer
+         // Quiz payloads start with 'edu_' or 'q' + number (e.g. q0_clinical)
+         if (payload && (payload.startsWith('edu_') || /^q\d+_/.test(payload))) {
+            handleQuizAnswer(payload);
+            return;
+         } else {
+             // User interrupted flow, Exit Quiz mode
+             setQuizState(prev => ({ ...prev, active: false }));
+             // Proceed to standard map handling below
+         }
     }
 
     const map = conversationMap(contentRef.current, startQuiz, startHakeem, initGame);
@@ -653,19 +721,6 @@ export const useChatManager = (currentContent, country, language) => {
       addMessage("I'm sorry, I don't understand that choice.", 'ai');
     }
   }, [quizState.active, handleQuizAnswer, startQuiz, hakeemState.active, handleHakeemAnswer, startHakeem, controlRoomState.active, initGame, exitGame]);
-
-  const findChoiceText = (payload) => {
-    const lastMessage = messages[messages.length - 1];
-    const choice = lastMessage?.choices?.find(c => c.payload === payload);
-    if (choice && typeof choice.text === 'string') {
-        return choice.text;
-    }
-    // Fallback for footer icons or if text not found
-    if (typeof payload === 'string') {
-        return payload.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-    }
-    return 'My choice';
-  };
 
 
   return {
